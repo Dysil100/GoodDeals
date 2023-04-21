@@ -1,0 +1,160 @@
+I - App Starten
+
+        ##Workflows acces token:  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
+        ##Workflows acces token 2:  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
+
+
+
+        ###############################
+        Server zeug
+        ##IP-Server: 95.179.219.29
+        ##Gihub-servertoken: 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       //token 0
+        ################################
+
+    1) zum virtuallen machinen des ServerProvider Vultr  mit den Folgenden Commandos login:
+        ssh root@95.179.219.29
+        ##IP-Server: 95.179.219.29
+        und mit following credential:
+        username:root
+        password:[Js4m[B}QP#(D9XU
+
+    2) navigate to hom and start the jarFile with following command
+        cd ../home/java-apps/WillAgropastoralApp/
+        (wenn nötig erstmal alle sql migrationen vernünftig ausführen (zur Vermeidung von Problemen mit der Flyway Migration) )
+        und:  gradle build && java -jar build/libs/WillAgropastoral-0.0.1-SNAPSHOT.jar
+        oder das Folgende
+        java -jar ../home/spring-apps/WillAgropastoralApp/build/libs/WillAgropastoral-0.0.1-SNAPSHOT.jar  server.port=80
+
+        Laufen lassen: ./gradlew bootRun
+            (das obige geht auch statt das jar datei laufen zu lassen)
+
+II - App aktualisieren
+
+    1-login to aapanel with following credential:
+        username: jwvjhekj
+        password: 952a993c
+
+        oder folgende URL im Browser eingeben:
+            http://95.179.219.29:7800/f3a59635 (damit man direct zu seinem persönlichen übersicht landet)
+
+
+        (aaPanel Internet Address: http://95.179.219.29:7800/f3a59635
+        aaPanel Internal Address: http://95.179.219.29:7800/f3a59635
+        username: jwvjhekj
+        password: 952a993c)
+
+    2)- zum Ordner naviegieren und Datei uploaden:
+        a)  dann (links) unter Files nach dem Ordner ../home/java-spring-app/ suchen
+        b) sein jar datei uploaden (bzw: sein Project uploaden)
+
+    3) -App direct laufen lassen
+        navigate with cd to code-source  (../home/willApp-code-source/WillAgropastoralApp/) Ordner
+        and run:
+            gradle build
+            an then run:
+            java -jar build/libs/WillAgropastoral-0.0.1-SNAPSHOT.jar server.port=80
+
+III- app starten und stoppen;
+      1) - programm starten und ein Timeout verhindert mit folgenden:
+     nohup java -jar ../home/java-spring-app/WillAgropastoral-0.0.1-SNAPSHOT.jar  server.port=80 > myLogsOutput.txt &
+      2) - programm stoppen:
+        killall -9 java : um alle laufenden programm runterzubringen
+        killall -9 PID : um ein Programm mit diesem PIP zu stoppem,
+        ps -ef : um das PID eines Programm rauszufinden:
+
+
+IV- Anbieter:
+  1)paypal email: silatsamdylan@gmail.com
+  2)Domain name Anbieter (unter https://www.namesilo.com):
+    username: silatsam
+    password: Programmierung2.0
+
+  3)DNS (Domain Namen service) ; routing meiner Server-Ip-Adrese (unter https://dash.cloudflare.com):
+        username: silatsamdylan@gmail.com
+        password: programmierung2.0
+  4) Server provider(unter https://my.vultr.com):
+        username: silatsamdylan@gmail.com
+        password: Programmierung2.0
+
+  5) Heroku: server, heberger, appBuilder und deployer:
+        username: silatsamdylan@gmail.com
+        password: programmierung2.0
+
+  6) Google account:
+        username: Silatsamdylan@gmail.com
+        password: programmierung2.0
+
+        username: willagropastoral@gmail.com
+        password: feuille de calculs
+  7) Bitte 'sudo docker-compose up' nicht vergessen, wenn die neue version mit datenbank gestartet wird
+
+
+  8)cloudd provider ( Cloud66 ) mit Folgenden:
+    * name: calculAnalytique
+    * password: XITLQHGOSPYUYS7XE73N53W2NPUEGLKTPQ5A
+
+    sorry bro deutsh und Englsich vermisch: muss du bloß mit rauskommen.
+    note: im Home verzeichnisse liegt logfile mit daten meiner account also in '.msmtprc'
+    Note: Port 80 ist der Default Port wo man seine
+    Note: lieber manual per Hand bauern 'mit gradle build'
+    Note: also man can zwischen durch ein 'sudo' vor dem commando schreiben wenn das system sich beschwert, von rechten; wie hier zum beispiel eine typische Fehler
+
+    """
+        Failed to execute process '/usr/local/bin/flyway'. Reason:
+        exec: Exec format error
+        The file '/usr/local/bin/flyway' is marked as an executable but could not be run by the operating system.
+    """
+
+    wenn man flyway --help zum beispiel startet, auch ähnlich Meldungen mit 'docker compose up' bekommt man manchmal.
+
+    Note: Flyway Usage Example
+              flyway -user=myuser -password=s3cr3t -url=jdbc:h2:mem -placeholders.abc=def migrate
+
+##Auch sehr wichtig
+    1 ) start the database :
+        docker-compose -f docker-compose.yml up > mydocker-output.txt
+    2) build project in server machine:
+        ./gradlew build
+    3) run project in server machine:
+        ./gradlew run
+    4) connect to database an execute script on commandline:
+    Note: erstmal bis in ../db/migration navigieren(damit einmal in postgres eingelopgt man keine Pfads mehr eingeben zur Execution der verschiedenen Scripts)
+        #Scritte
+            (i)-  psql -h localhost -p 15000 -U willagropastoral -W -d willagropastoral
+                    der danch wegen (-w) gefragt pasword ist: 'iamgroot'
+            (ii)-  \i V1__tabelle_erstellen.sql
+            (iii)- \i V2__exampleData.sql
+
+
+    5) Postgressql status sehen:
+        service postgresql status
+
+    5) Postgressql version sehen:
+        psql -V
+        output = ungefähr (psql (PostgreSQL) 12.9 (Ubuntu 12.9-0ubuntu0.20.04.1))
+
+    6) database on commandline(natürlich nachdem man in der datenbak eingebunden ist) Manage:
+        (i)  database Zeigen
+            (a) - Use \l or \l+ in psql to show all databases in the current PostgreSQL server.
+            (a) - Use \dt in psql to show all table in the current PostgreSQL server.
+            (b) - Use the SELECT statement to query data from the pg_database to get all databases (for exemple: SELECT datname FROM pg_database;)
+
+        (ii) - tabellen in einer datenbank bearbeiten
+        Note: tabelle löschen oder einlegen: Z.B:
+            DROP TABLE IF EXISTS flyway_schema_history;
+                oder eben
+            CREATE TABLE flyway_schema_history;
+            (a) -
+image builded:
+        docker build -f Dockerfile -t willagropastoral:jdk ./
+    Successfully built 896751aa7277
+    Successfully tagged willagropastoral:jdk
+
+
+        docker run willagropastoral:jdk
+
+
+*****************************APPMORKER***************
+    https://appsgeyser.com/appmaker/
+*****************************APPMORKER***************
+
