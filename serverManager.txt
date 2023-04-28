@@ -69,7 +69,7 @@ IV- Anbieter:
     username: silatsam
     password: Programmierung2.0
 
-  3)DNS (Domain Namen service) ; routing meiner Server-Ip-Adrese (unter https://dash.cloudflare.com):
+  3)DNS (Domain Namen product) ; routing meiner Server-Ip-Adrese (unter https://dash.cloudflare.com):
         username: silatsamdylan@gmail.com
         password: programmierung2.0
   4) Server provider(unter https://my.vultr.com):
@@ -127,7 +127,7 @@ IV- Anbieter:
 
 
     5) Postgressql status sehen:
-        service postgresql status
+        product postgresql status
 
     5) Postgressql version sehen:
         psql -V

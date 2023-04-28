@@ -39,4 +39,9 @@ public class Routen {
 
     public static final String CONFIRMPASSWORDRECOVER = "/delete/confirm";
     public static final String CONFRIMREGISTRATION = "/registration/confirm";
+
+    public static final String PRODUCT = "/2kolos/product";
+    public static final String PRODUCTLISTE = "/2kolos/productliste";
+    public static final String PRODUCTSERVICE = "/2kolos/product/delete/{id}";
+    public static final String PRODUCTSEARCH = "/2kolos/products/search";
 }

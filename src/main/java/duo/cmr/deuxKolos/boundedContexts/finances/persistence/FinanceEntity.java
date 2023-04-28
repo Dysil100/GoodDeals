@@ -11,8 +11,10 @@ import org.springframework.data.relational.core.mapping.Table;
 @ToString
 @NoArgsConstructor
 public class FinanceEntity {
+
     @Id
     Long id;
+
     private String bezeichnung;
     private Double summe;
     private String description;
