@@ -1,5 +1,6 @@
 package duo.cmr.deuxKolos.boundedContexts.App2Kolos.web.controllers.User;
 
+import com.sun.xml.bind.v2.TODO;
 import duo.cmr.deuxKolos.boundedContexts.App2Kolos.domaine.models.Product;
 import duo.cmr.deuxKolos.boundedContexts.App2Kolos.domaine.oders.InputSearchForm;
 import duo.cmr.deuxKolos.boundedContexts.App2Kolos.web.services.subservices.ProductService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
@@ -36,29 +38,37 @@ public class ProductController {
         return "productliste";
     }
 
+    // TODO: 29.04.2023 repair this hier and in the frontend
     @PostMapping(PRODUCTSEARCH)
     public String serviceSearch(Model model, @ModelAttribute("search") String search){
         model.addAttribute("products", productService.filterNach(search));
         return "productliste";
     }
 
-    @GetMapping(PRODUCT)
+    @GetMapping(NEWPRODUCT)
     public String Sservice(Model model, @ModelAttribute("productForm") Product form) {
         model.addAttribute("productForm", form);
-        return "product";
+        return "newproduct";
     }
 
-    @PostMapping(PRODUCT)
-    public String esrvicePost(Model model, @ModelAttribute("productForm") Product form, @ModelAttribute("email") String email) {
+    @PostMapping(NEWPRODUCT)
+    public String esrvicePost(Model model, @ModelAttribute("productForm") Product form) {
         System.out.println(form);
-        form.setEmail(email);
         productService.save(form);
-        return "redirect:" + PRODUCT;
+        model.addAttribute("products", productService.alle());
+        return "redirect:" + PRODUCTLISTE;
+    }
+
+    @GetMapping("/product/details/{id}")
+    public String productDetails(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("product", productService.getProductById(id));
+        return "productDetails";
     }
 
     @ModelAttribute("productForm")
     Product productForm() {
-        return new Product(null, null, null, 0.0, false);
+        return new Product(null, null, null, 0.0, false, false
+                , null, null, null, null, null);
     }
 
     @ModelAttribute("InputSearchForm")

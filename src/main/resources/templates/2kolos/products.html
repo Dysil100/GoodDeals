@@ -1,66 +1,112 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Liste des Products</title>
-</head>
-<body>
-<h1>Liste des Products</h1>
 <div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <form action="#" method="get">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Recherche...">
-          <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Rechercher</button>
-                        </span>
-        </div>
-      </form>
+  <!-- barre de recherche -->
+  <form class="form-inline my-4" th:action="@{/search}" method="get">
+    <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" name="query">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+  </form>
+
+  <!-- filtre par ville -->
+  <div class="row mb-4">
+    <div class="col">
+      <select class="form-select" aria-label="Filtrer par ville" name="city">
+        <option value="">Toutes les villes</option>
+        <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"></option>
+      </select>
     </div>
   </div>
+
+  <!-- bouton pour créer un nouveau produit -->
+  <div class="row mb-4">
+    <div class="col">
+      <a th:href="@{/product/new}" class="btn btn-primary">Créer un nouveau produit</a>
+    </div>
+  </div>
+
+  <!-- liste des produits sous forme de cartes -->
   <div class="row">
-    <div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-4" th:each="product : ${Products}">
-              <div class="thumbnail">
-                <img src="#" alt="Photo" class="img-responsive">
-                <div class="caption">
-                  <h3 th:text="${product.title}"></h3>
-                  <p><strong>Par :</strong> <span th:text="${product.username}"></span></p>
-                  <p><strong>Prix :</strong> <span th:text="${product.price}"></span></p>
-                  <p><strong>Note :</strong> <span th:text="${product.rating}"></span></p>
-                  <a href="#" class="btn btn-primary">Like</a>
-                </div>
-              </div>
-            </div>
-          </div>
+    <div class="col-md-4" th:each="product : ${products}">
+      <div class="card">
+        <img class="card-img-top" th:src="${product.image}" alt="Image du produit">
+
+        <div class="card-body">
+          <h5 class="card-title" th:text="${product.username}"></h5>
+          <h6 class="card-subtitle mb-2 text-muted" th:text="${product.title}"></h6>
+          <p class="card-text" th:text="${product.description}"></p>
+          <p class="card-text" th:text="'Prix: ' + ${product.price} + ' €'"></p>
+          <p class="card-text" th:text="${product.city} + ', ' + ${product.quartier}"></p>
+          <p th:if="${product.active}" class="card-text text-success">Actif</p>
+          <p th:unless="${product.active}" class="card-text text-danger">Inactif</p>
+          <a th:href="@{/product/details/{id}(id=${product.id})}" class="btn btn-primary">Détails</a>
         </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-          <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li><a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
-        </ul>
-      </nav>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <a href="#" class="btn btn-default">Retour à l'accueil</a>
-    </div>
-  </div>
 </div>
-</body>
-</html>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  <th:block th:each="product : ${products}">
+    <div class="col">
+      <div class="card h-100">
+        <img src="#" class="card-img-top" alt="Product Image">
+        <img th:src="${product.image}" alt="Product Image">
+        <div class="card-body">
+          <h5 class="card-title" th:text="${product.titre}"></h5>
+          <p class="card-text" th:text="${product.description}"></p>
+          <p class="card-text" th:text="'Price: ' + ${product.prix}"></p>
+          <p class="card-text" th:text="'City: ' + ${product.city}"></p>
+          <p class="card-text" th:text="'Quartier: ' + ${product.quartier}"></p>
+          <p class="card-text" th:text="'Seller: ' + ${product.userEmail}"></p>
+          <p th:if="${product.active}" class="card-text text-success">Actif</p>
+          <p th:unless="${product.active}" class="card-text text-danger">Inactif</p>
+          <!--a th:href="@{/product/details/{id}(id=${product.id})}" class="btn btn-primary">Détails</a-->
+        </div>
+      </div>
+    </div>
+  </th:block>
+</div>
+
+
+<script>
+  var stompClient = null;
+  var sender = /*[[${sender}]]*/ '';
+  var receiver = window.location.href.split("/")[1]
+  $(document).ready(function() {
+    $('input[name="receiver"]').on('input', function() {
+      receiver = $(this).val();
+      $('#messages').empty();
+      loadMessages();
+    });
+    $('#send').on('click', function() {
+      var message = $('input[name="message"]').val();
+      $('input[name="message"]').val('');
+      stompClient.send("/app/send", {}, JSON.stringify({
+        sender: sender,
+        receiver: receiver,
+        content: message
+      }));
+    });
+    connect();
+  });
+  function connect() {
+    var socket = new SockJS('/chat');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+      console.log('Connected: ' + frame);
+      stompClient.subscribe('/topic/messages', function(message) {
+        showMessage(JSON.parse(message.body));
+      });
+    });
+  }
+  function showMessage(message) {
+    var html = '<li><strong>' + message.sender + ':</strong> ' + message.content + '</li>';
+    $('#messages').append(html);
+  }
+  function loadMessages() {
+    $.get('/messages', { sender: sender, receiver: receiver }, function(messages) {
+      $('#messages').empty();
+      messages.forEach(function(message) {
+        showMessage(message);
+      });
+    });
+  }
+</script>

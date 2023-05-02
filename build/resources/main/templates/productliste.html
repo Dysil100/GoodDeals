@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:insert="fragments/general.html :: head(title='Deux Kolos:Acceuil: liste des produits')"></header>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div class="container">
+    <!-- barre de recherche -->
+    <form class="form-inline my-4" th:action="@{/product/search}" method="get">
+        <input class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" name="query">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+    </form>
+
+    <!-- filtre par ville -->
+    <!--div class="row mb-4">
+        <div class="col">
+            <select class="form-select" aria-label="Filtrer par ville" name="city">
+                <option value="">Toutes les villes</option>
+                <option th:each="city : ${cities}" th:value="${city}" th:text="${city}"></option>
+            </select>
+        </div>
+    </div-->
+
+    <!-- bouton pour créer un nouveau produit -->
+    <div class="row mb-4">
+        <div class="col">
+            <a th:href="@{/newproduct}" class="btn btn-primary">Créer un nouveau produit</a>
+        </div>
+    </div>
+
+    <!-- liste des produits sous forme de cartes -->
+
+    <div th:each="product : ${products}"
+         th:if="${product.active}">
+        <div class="card">
+            <img th:src="${product.image}" alt="Product Image">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${product.titre}"></h5>
+                <p class="card-text" th:text="${product.description}"></p>
+                <p class="card-text" th:text="'Price: ' + ${product.prix}"></p>
+                <p class="card-text" th:text="'City: ' + ${product.city}"></p>
+                <p class="card-text" th:text="'Quartier: ' + ${product.quartier}"></p>
+                <p class="card-text" th:text="'Seller: ' + ${product.userEmail}"></p>
+                <p th:if="${product.active}" class="card-text text-success">Actif</p>
+                <p th:unless="${product.active}" class="card-text text-danger">Inactif</p>
+                <a th:href="@{/product/details/{id}(id=${product.id})}" class="btn btn-primary">Détails</a>
+            </div>
+        </div>
+    </div>
+    <!--div class="pagination">
+        <ul>
+            <li th:class="${currentPage == 1} ? disabled : ''">
+                <a th:href="@{|/products?page=${currentPage - 1}|}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(1, totalPages)}"
+                th:class="${currentPage == page} ? active : ''">
+                <a th:href="@{|/products?page=${page}|}" th:text="${page}"></a>
+            </li>
+            <li th:class="${currentPage == totalPages} ? disabled : ''">
+                <a th:href="@{|/products?page=${currentPage + 1}|}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div-->
+
+<script th:inline="javascript">
+     /*currentPage = [[${currentPage}]] null*/;
+    if (currentPage == null) {
+        currentPage = 1;
+    }
+</script>
+
+
+</div>
+</body>
+</html>

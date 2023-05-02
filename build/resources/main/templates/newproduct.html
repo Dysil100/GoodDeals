@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<header th:insert="fragments/general.html :: head(title='DeuxKolos: Creer votre produit')"></header>
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Créer un nouveau produit</title>
+</head>
+<body>
+<h1>Créer un nouveau produit</h1>
+<form method="post" th:object="${productForm}" enctype="multipart/form-data" th:action="@{/newproduct}">
+  <label for="userEmail">Nom d'utilisateur:</label>
+  <input type="text" id="userEmail" name="userEmail" required><br>
+
+  <label for="titre">Titre:</label>
+  <input type="text" id="titre" name="titre" required><br>
+
+  <label for="description">Description:</label>
+  <textarea id="description" name="description"></textarea><br>
+
+  <label for="prix">Prix:</label>
+  <input type="number" id="prix" name="prix" step="0.01" required><br>
+
+  <label for="active">Actif:</label>
+  <input type="checkbox" id="active" name="active" checked><br>
+
+  <label for="city">Ville:</label>
+  <input type="text" id="city" name="city" required><br>
+
+  <label for="quartier">Quartier:</label>
+  <input type="text" id="quartier" name="quartier"><br>
+
+  <!--label for="image">Image:</label>
+  <input type="file" id="image" name="image"><br-->
+
+  <label for="vente">Vente:</label>
+  <input type="checkbox" id="vente" name="vente" checked><br>
+
+  <button type="submit">Créer</button>
+</form>
+
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+  function uploadImage(event) {
+    const file = event.target.files[0];
+    const metadata = {
+      contentType: file.type
+    };
+    const uploadTask = firebase.storage().ref().child('images/' + file.name).put(file, metadata);
+    uploadTask.then(snapshot => {
+      console.log('Uploaded file successfully:', snapshot);
+      const downloadURL = snapshot.ref.getDownloadURL();
+      downloadURL.then(url => {
+        console.log('Download URL:', url);
+        document.getElementById('imageUrl').value = url;
+      });
+    }).catch(error => {
+      console.error('Error while uploading file:', error);
+    });
+  }
+
+  document.getElementById('image').addEventListener('change', uploadImage);
+</script>
+</body>
+</html>

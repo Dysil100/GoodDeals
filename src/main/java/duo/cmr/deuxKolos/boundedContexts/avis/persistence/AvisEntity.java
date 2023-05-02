@@ -25,7 +25,4 @@ public class AvisEntity {
         this.comment = comment;
         this.generatedAt = generatedAt;
     }
-
-
-
 }

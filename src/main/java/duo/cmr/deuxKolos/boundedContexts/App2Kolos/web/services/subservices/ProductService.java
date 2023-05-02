@@ -29,4 +29,8 @@ public class ProductService {
     public List<Product> filterNach(String search) {
         return productRepository.filterNach(search);
     }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id);
+    }
 }

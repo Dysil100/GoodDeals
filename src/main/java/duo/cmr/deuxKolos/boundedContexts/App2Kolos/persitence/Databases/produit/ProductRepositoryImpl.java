@@ -1,10 +1,11 @@
-package duo.cmr.deuxKolos.boundedContexts.App2Kolos.persitence.Databases.service;
+package duo.cmr.deuxKolos.boundedContexts.App2Kolos.persitence.Databases.produit;
 
 import duo.cmr.deuxKolos.boundedContexts.App2Kolos.domaine.models.Product;
 import duo.cmr.deuxKolos.boundedContexts.App2Kolos.web.services.interfaces.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,12 +22,12 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product findById(Long id) {
-        return toService(daoProductRepository.findById(id).get());
+        return toProduct(daoProductRepository.findById(id).get());
     }
 
     @Override
     public List<Product> findAll() {
-         return toServiceList(daoProductRepository.findAll());
+         return toProductList(daoProductRepository.findAll());
     }
 
     @Override
@@ -40,18 +41,22 @@ public class ProductRepositoryImpl implements ProductRepository {
                 p.getUserEmail().contains(search)||p.getTitre().contains(search)).collect(Collectors.toList());
     }
 
-    private List<Product> toServiceList(Iterable<ProductEntity> serviceEntities) {
-        ArrayList<Product> Products = new ArrayList<>();
-        serviceEntities.forEach(this::toService);
-        return Products;
+    private List<Product> toProductList(Iterable<ProductEntity> serviceEntities) {
+        ArrayList<Product> products = new ArrayList<>();
+        serviceEntities.forEach(e -> products.add(toProduct(e)));
+        return products;
     }
 
-    private Product toService(ProductEntity e) {
-        return new Product(e.getId(), e.getUserEmail(), e.getTitle(), e.getDescription(), e.getPrice(), e.getActive());
+    private Product toProduct(ProductEntity e) {
+        return new Product(e.getId(), e.getUserEmail(), e.getTitle(), e.getDescription(), e.getPrice(), e.getActive(),
+                e.getVente(), e.getCity(), e.getQuartier(), e.getImage(), e.getCreatedAt(), e.getUpdatedAt());
     }
 
     private ProductEntity toEntity(Product p){
-        return  new ProductEntity(p.getUserEmail(), p.getTitre(), p.getDescription(), p.getPrix(), p.isActive());
+        p.setCreatedAt(p.getCreatedAt() == null ? LocalDateTime.now(): p.getCreatedAt());
+        p.setUpdatedAt(p.getUpdatedAt() == null ? LocalDateTime.now(): p.getUpdatedAt());
+        return  new ProductEntity(p.getUserEmail(), p.getTitre(), p.getDescription(), p.getPrix(), p.getActive(),
+               p.getVente(), p.getCity(), p.getQuartier(), p.getImage(), p.getCreatedAt(), p.getUpdatedAt());
     }
 
 }

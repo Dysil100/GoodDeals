@@ -1,0 +1,48 @@
+@charset "UTF-8";
+.container {
+    margin-top: 50px;
+}
+
+.message {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+.input-group {
+    margin-top: 10px;
+}
+.chat {
+    display: flex;
+    flex-direction: column-reverse; /* inverser l'ordre des éléments */
+    height: 80vh;
+    /* height: 300px;  Hauteur maximale de la liste des messages */
+    overflow-y: scroll; /* Faire défiler uniquement la liste des messages */
+    scroll-behavior: smooth; /* Faire défiler la liste des messages en douceur */
+}
+
+.message {
+    display: flex;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.message .content {
+    border-radius: 5px;
+    padding: 10px;
+    margin-left: 10px;
+    max-width: 70%;
+}
+
+.message.sent .content {
+    background-color: #D9EDF7FF;
+    margin-right: auto;
+}
+
+.message.received .content {
+    background-color: #81EE72FF;
+}
+
+.message .sender {
+    font-weight: bold;
+}
+

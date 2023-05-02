@@ -8,7 +8,7 @@
 <div class="container">
     <h1>Liste des product</h1>
 
-    <form method="post" th:action="@{/2kolos/product/search}">
+    <form method="post" th:action="@{/product/search}">
         <input type="text" id="search" for="search" name="search" placeholder="Rechercher un product a partiri d'un mot clé, ou d'un nom...">
         <button type="submit">Rechercher</button>
     </form>
@@ -27,7 +27,7 @@
                     <a href="/Products/${product.id}/like">Like</a>
                 </div>
                 <div>
-                    <form method="post" th:action="@{/adminindex/2kolos/product/delete/{id}(id=*{getId()})}">
+                    <form method="post" th:action="@{/adminindex/product/delete/{id}(id=*{getId()})}">
                         <input class="btn btn-outline-danger btn-sm fa fa-trash" type="submit" value="Suprimer">
                     </form></div>
             </div>

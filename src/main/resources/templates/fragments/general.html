@@ -27,8 +27,8 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="icon" type="image/png" href="https://example.com/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="../static/css/styles.css" />
-
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="/static/css/chatpage.css"/>
 </head>
 <body>
 
@@ -38,7 +38,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="../static/css/styles.css"/>
+        <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
+        <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="/static/css/chatpage.css"/>
 </head>
 
 //General index
@@ -58,7 +59,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center " th:href="@{/2kolos/productliste }">Freelance</a>
+                    <a class="nav-link bage badge-info text-center " th:href="@{/productliste}">Freelance</a>
                 </li>
 
                 <li class="nav-item">
@@ -96,13 +97,16 @@
                 </span>
             </ul>
             <form class="form-inline my-2 my-lg-0" disabled>
-                <!--todo search from implementieren-->
+                <!--todo search form implementieren-->
                 <input disabled name="searchInput" id="searchInput0" class="form-control mr-sm-2" type="search"
                        placeholder="Search">
                 <button disabled class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
 </header>
 
 

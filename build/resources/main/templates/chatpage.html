@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<header th:insert="fragments/general.html :: head(title='Goood Deals: Chat Page')"></header>
+<head>
+  <meta charset="UTF-8">
+  <title>Chat</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.0/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="../static/css/chatpage.css"/>
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      // Définition de la fonction pour récupérer les messages
+      function updateMessages() {
+        // Récupération des valeurs des champs "sender" et "receiver"
+        const sender = document.getElementById("sender").value;
+        const receiver = document.getElementById("receiver").value;
+
+        // Appel de l'API RESTful avec fetch() pour récupérer les messages correspondants
+        fetch(`/messages/${sender}/${receiver}`)
+                .then(response => response.json()) // Transforme la réponse en objet JSON
+                .then(data => {
+                  // Met à jour l'attribut "messages" du formulaire avec la réponse de l'API
+                  document.getElementById("chat-messages").setAttribute("th:object", JSON.stringify(data));
+                })
+                .catch(error => console.error(error)); // Gestion des erreurs éventuelles
+      }
+
+      // Actualisation des messages toutes les deux secondes
+      setInterval(updateMessages, 2000);
+    });
+  </script>
+</head>
+<body class="background">
+<div class="container-fluid">
+<h1>Chat</h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="chat" id="chat">
+        <div id="chat-messages" th:object="${messages}" class="chat-messages" th:each="message : ${messages}">
+          <div class="content" th:class="${message.sender == sender} ? 'sent' : 'received'">
+            <p class="sender" th:text="${message.sender}"></p>
+            <p class="text" th:text="${message.message}"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form method="post" th:action="@{/chatpage/send}">
+  <label for="sender" hidden>Sender:</label>
+  <input th:value="${sender}" type="text" name="sender" id="sender" readonly required hidden>
+  <br>
+  <label for="receiver" hidden>Receiver:</label>
+  <!--input value="" type="text" name="receiver" required -->
+  <input th:value="${receiver}" type="text" name="receiver" id="receiver" required hidden>
+  <br>
+  <label for="content" hidden>Message:</label>
+  <input type="text" name="message" id="content" required>
+  <button type="submit" id="send" >Send</button>
+</form>
+</div>
+</body>
+</html>
