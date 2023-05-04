@@ -1,0 +1,46 @@
+.discussion-list {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.discussion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2px;
+    padding: 5px;
+}
+
+.discussion-avatar {
+    flex: 0 0 50px;
+}
+
+.discussion-avatar img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.discussion-info {
+    flex: 1 1 auto;
+    margin-left: 10px;
+}
+
+.discussion-name {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.discussion-preview {
+    margin-bottom: 5px;
+}
+
+.discussion-date {
+    font-size: 14px;
+    color: #888;
+}
