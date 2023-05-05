@@ -1,0 +1,60 @@
+package duo.cmr.dysha.boundedContexts.finances.web.controllers.leader;
+
+import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
+import duo.cmr.dysha.boundedContexts.dasandere.persistence.annotations.Leader;
+import duo.cmr.dysha.boundedContexts.dasandere.web.services.ServiceSupreme;
+import duo.cmr.dysha.boundedContexts.finances.forms.Compteur;
+import duo.cmr.dysha.boundedContexts.finances.forms.FinanceForm;
+import duo.cmr.dysha.boundedContexts.finances.web.service.FinanceService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
+
+import static duo.cmr.dysha.boundedContexts.routen.Routen.FINANCESUEBERSICHT;
+import static duo.cmr.dysha.boundedContexts.routen.Routen.LEADERROUTE;
+
+@Controller
+@AllArgsConstructor
+@RequestMapping(LEADERROUTE)
+@Leader
+public class LeaderFinancesController {
+    private ServiceSupreme serviceSupreme;
+    private FinanceService financeService;
+    // TODO: 14.02.22 Route zum löschen und aktualiesieren implementieren und ein Root user für die Verwaltungen
+
+    @GetMapping(FINANCESUEBERSICHT)
+    public String uebersicht(Model model, @ModelAttribute("financeform") FinanceForm form, @ModelAttribute("compteur") Compteur compteur) {
+        model.addAttribute("finances", financeService.alle());
+        model.addAttribute("financeForm", form);
+        model.addAttribute("compteur", compteur);
+        return "financeübersicht";
+    }
+
+    @PostMapping(FINANCESUEBERSICHT)
+    public String uebersichtPost(@ModelAttribute("financeForm") FinanceForm form, @ModelAttribute("compteur") Compteur compteur) {
+        financeService.save(form.toFinance());
+        return "redirect:" + LEADERROUTE + FINANCESUEBERSICHT;
+    }
+
+    @ModelAttribute("form")
+    FinanceForm financeForm() {
+        return new FinanceForm(null, null, null, null);
+    }
+
+    @ModelAttribute("compteur")
+    Compteur compteur() {
+        return financeService.getCompteur();
+    }
+
+    @ModelAttribute("text")
+    String handle(Principal user) {
+        AppUser userByEmail = serviceSupreme.getUserByEmail(user.getName());
+        return "au Leader " + userByEmail.getFirstName();
+    }
+}

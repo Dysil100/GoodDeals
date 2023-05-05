@@ -1,0 +1,66 @@
+/* Style pour la navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #222;
+    color: #fff;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 10px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+nav form input[type="text"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 10px;
+}
+
+nav form button[type="submit"] {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #fff;
+    color: #222;
+    cursor: pointer;
+}
+
+/* Style pour la section jobs */
+.jobs {
+    padding: 20px;
+}
+
+.jobs h2 {
+    margin-top: 0;
+}
+
+.jobs li {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Style pour le footer */
+footer {
+    padding: 10px;
+    text-align: center;
+    background-color: #ddd;
+    color: #222;
+}
