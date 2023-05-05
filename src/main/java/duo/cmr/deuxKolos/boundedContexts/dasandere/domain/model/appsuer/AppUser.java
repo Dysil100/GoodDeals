@@ -1,9 +1,6 @@
 package duo.cmr.deuxKolos.boundedContexts.dasandere.domain.model.appsuer;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +12,10 @@ import java.util.Collections;
 @Setter
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class AppUser  implements UserDetails  {
 
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
@@ -26,6 +25,15 @@ public class AppUser  implements UserDetails  {
     private Boolean enabled = false;
 
     public AppUser(String firstName, String lastName, String email, String password, AppUserRole role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
+
+    public AppUser(Long id, String firstName, String lastName, String email, String password, AppUserRole role) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -68,5 +76,9 @@ public class AppUser  implements UserDetails  {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public String getFullName() {
+        return firstName + "  " + lastName;
     }
 }

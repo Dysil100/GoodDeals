@@ -53,8 +53,20 @@ public class AppUserRepositoryImpl implements AppUserRepository {
         return alle.stream().sorted(Comparator.comparing(AppUser::getEmail, Comparator.naturalOrder())).collect(Collectors.toList());
     }
 
+    @Override
+    public List<AppUser> findByIds(List<Long> idsFromHash) {
+        return toAppUserList(daoAppUserRepository.findAllById(idsFromHash));
+    }
+
+    private List<AppUser> toAppUserList(Iterable<AppUserEntity> allByIds) {
+        List<AppUser> appUsers = new ArrayList<>();
+        allByIds.forEach(e -> appUsers.add(toAppUser(e)));
+        return appUsers;
+
+    }
+
     public AppUser toAppUser(AppUserEntity entity) {
-        AppUser appUser = new AppUser(entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.getPassword(), entity.getRole());
+        AppUser appUser = new AppUser(entity.getId(), entity.getFirstName(), entity.getLastName(), entity.getEmail(), entity.getPassword(), entity.getRole());
         appUser.setEnabled(entity.getEnabled());
         appUser.setLocked(entity.getLocked());
         return appUser;

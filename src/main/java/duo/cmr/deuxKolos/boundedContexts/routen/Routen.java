@@ -43,5 +43,5 @@ public class Routen {
     public static final String NEWPRODUCT = "/newproduct";
     public static final String PRODUCTLISTE = "/productliste";
     public static final String PRODUCTSERVICE = "/product/delete/{id}";
-    public static final String PRODUCTSEARCH = "/products/search";
+    public static final String PRODUCTSEARCH = "/productliste/search";
 }

@@ -163,4 +163,14 @@ public class AppUserService implements UserDetailsService {
     public List<UserArchivEntity> alleUsersArchiv() {
         return userArchivRepository.findAll();
     }
+
+    public AppUser findByEmail(String email) {
+        return appUserRepository.findByEmail(email).orElseGet(() -> new AppUser(
+                "", "", email, "",
+                ROLE_USER));
+    }
+
+    public List<AppUser> findAllByIds(List<Long> ids) {
+        return appUserRepository.findByIds(ids);
+    }
 }

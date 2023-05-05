@@ -28,7 +28,8 @@
     <link rel="icon" type="image/png" href="https://example.com/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
-    <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="/static/css/chatpage.css"/>
+    <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="../static/css/productliste.css"/>
+
 </head>
 <body>
 
@@ -39,8 +40,47 @@
               integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
-        <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="/static/css/chatpage.css"/>
 </head>
+
+<!--good Deals header-->
+<header th:fragment="goodDealsHeader" id="gdTopnav" class="navbar-expand-md">
+    <div class="index-header">
+        <form th:object="${searchform}" class="form-inline my-4" th:action="@{/productliste/search}" method="get">
+            <label for="query">
+                <input id="query" class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" name="query">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
+            </label>
+        </form>
+
+        <!-- bouton pour créer un nouveau produit -->
+
+        <div class="row mb-4">
+            <div class="col">
+                <a th:href="@{/discussions}" class="btn btn-primary">Conversations</a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <a th:href="@{/productliste/search?query=''}" class="btn btn-primary">rechercher</a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <a th:href="@{/newproduct}" class="btn btn-primary">NouveauPoduit</a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <a th:href="@{/goodeals/profil}" class="btn btn-primary">Moi</a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col">
+                <a th:href="@{/productliste}" class="btn btn-primary">Acceuil</a>
+            </div>
+        </div>
+    </div>
+</header>
 
 //General index
 <header th:fragment="indexheader" id="myTopnav" class="navbar-expand-md">
@@ -110,7 +150,22 @@
 </header>
 
 
+<div th:fragment="productList(allproducts)" class="products-gooddeals">
+    <div class="container" th:each="product : ${allproducts}">
 
+        <a th:href="@{/product/details/{id}(id=${product.id})}">
+            <div class="product">
+                <img src="https://via.placeholder.com/150">
+                <div class="details">
+                    <p th:text="${product.quartier}">Ville, Quartier</p>
+                    <h3 th:text="${product.titre}">Titre du produit en gras</h3>
+                    <p th:text="${product.description}">Description du produit</p>
+                    <p class="price" th:text="${product.prix}">Prix en gras et vert</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
 
 <table th:fragment="tableBody(tableData)" class="table table-hover">
     <thead class="thead-light">

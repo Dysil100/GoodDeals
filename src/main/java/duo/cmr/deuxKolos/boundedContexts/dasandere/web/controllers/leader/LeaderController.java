@@ -36,10 +36,23 @@ public class LeaderController {
         return "home";
     }
 
+    @GetMapping("/goodeals/profil")
+    public String userprofil(Model model, @ModelAttribute("text") String text, @ModelAttribute("profile") AppUser currentUser) {
+        model.addAttribute("text", text);
+        model.addAttribute("role", "user");
+        model.addAttribute("profile", currentUser);
+        return "gooddealsprofil";
+    }
+
     @ModelAttribute("text")
     String handle(Principal user) {
         AppUser userByEmail = serviceSupreme.getUserByEmail(user.getName());
         System.out.println(userByEmail.getRole());
         return "au Leader " + userByEmail.getFirstName();
+    }
+
+    @ModelAttribute("profile")
+    AppUser profile(Principal user) {
+        return serviceSupreme.getUserByEmail(user.getName());
     }
 }

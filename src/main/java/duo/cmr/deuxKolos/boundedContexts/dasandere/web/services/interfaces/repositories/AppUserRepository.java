@@ -20,4 +20,6 @@ public interface AppUserRepository {
     void updatePassword(String encode, String email);
 
     List<AppUser> alle();
+
+    List<AppUser> findByIds(List<Long> idsFromHash);
 }
