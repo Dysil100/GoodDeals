@@ -59,7 +59,6 @@ public class DiscussionRepositoryImpl implements DiscussionRepository {
 
     private Discussion toDiscussion(DiscussionEntity e){
         List<AppUser> users = appUserRepositoryImpl.findByIds(chimpl.getUserIdsFromChatDiscussionHash(e.getDiscussionHash()));
-        System.out.println(users);
         return new Discussion(e.getId(), e.getDiscussionHash(), chatMessageRepository.findByDiscussionHash(e.getDiscussionHash()), e.getCreatedAt(), users);
     }
 }

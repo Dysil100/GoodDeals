@@ -8,9 +8,9 @@
 <body>
 <header th:replace="fragments/general.html :: goodDealsHeader"></header>
 <div class="search">
-  <form th:action="@{/productliste/search}" method="get" th:object="${seachliste}">
+  <form th:action="@{/productliste/search}" method="get">
     <label for="query"></label>
-    <input id="query" type="text" placeholder="Rechercher un produit .." aria-label="Rechercher" name="query">
+    <input id="query" type="text" placeholder="Rechercher un produit ..." aria-label="Rechercher" name="query">
     <button type="submit">Rechercher</button>
   </form>
 </div>

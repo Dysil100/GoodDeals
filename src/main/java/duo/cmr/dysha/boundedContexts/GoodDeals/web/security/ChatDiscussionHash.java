@@ -20,7 +20,6 @@ public class ChatDiscussionHash {
         long id2 = Long.parseLong(split[2]);
         result.add(id1);
         result.add(id2);
-        System.out.println(result);
         return result;
     }
 

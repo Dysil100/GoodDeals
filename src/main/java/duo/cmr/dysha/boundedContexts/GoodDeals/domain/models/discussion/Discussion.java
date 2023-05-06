@@ -42,7 +42,6 @@ public class Discussion {
     }
 
     public String getCurrentReceiverName(String sender){
-        System.out.println(users);
         if (users.isEmpty()) {
             return "";
         } else if (users.size() == 1) return users.get(0).getFullName();

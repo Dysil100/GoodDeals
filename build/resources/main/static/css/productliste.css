@@ -4,6 +4,15 @@
     padding: 20px;
 }
 
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #222;
+    color: #fff;
+}
+
 .index-header {
     display: flex;
     justify-content: space-between;
@@ -121,6 +130,7 @@
     color: #ccc;
     cursor: not-allowed;
 }
+
 
 
 

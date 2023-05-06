@@ -43,8 +43,7 @@
 </head>
 
 <!--good Deals header-->
-<header th:fragment="goodDealsHeader" id="gdTopnav" class="navbar-expand-md">
-    <div class="index-header">
+<header th:fragment="goodDealsHeader" id="gdTopnav" class="navbar-expand-md"><div class="index-header">
         <form th:object="${searchform}" class="form-inline my-4" th:action="@{/productliste/search}" method="get">
             <label for="query">
                 <input id="query" class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" name="query">
@@ -99,7 +98,10 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center " th:href="@{/productliste}">Freelance</a>
+                    <a class="nav-link bage badge-info text-center " th:href="@{/productliste}">GoodDeals</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link bage badge-info text-center " th:href="@{/dyshajobs}">Dysha-Jobs</a>
                 </li>
 
                 <li class="nav-item">
