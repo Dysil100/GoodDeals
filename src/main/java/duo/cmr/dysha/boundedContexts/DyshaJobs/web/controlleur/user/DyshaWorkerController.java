@@ -1,10 +1,11 @@
-package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.admin;
+package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.user;
 
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaworker.DyshaWorker;
-import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaworker.DyshaWorkerForm;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.globaluser.GlobalAppUser;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaWorkerService;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
+import duo.cmr.dysha.boundedContexts.dasandere.persistence.annotations.AdminOnly;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Controller
@@ -24,17 +26,18 @@ public class DyshaWorkerController {
     private DyshaWorkerService dyshaWorkerService;
     private AppUserService appUserService;
 
+    @AdminOnly
     @GetMapping("/dyshajobs/workers")
-    public String employPage(Model model,@ModelAttribute("user") AppUser user) {
+    public String employPage(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
+        model.addAttribute("globalUser", user);
         model.addAttribute("dyshaworkers", dyshaWorkerService.finAll());
-        model.addAttribute("role", user.getRole().name());
         return "dyshaworkers";
     }
 
     @GetMapping("/dyshajobs/newdyshaworker")
-    public String showWorkerForm(Model model, @ModelAttribute("user") AppUser user) {
-        model.addAttribute("dyshaworker", new DyshaWorker(null,null, null, null, null, null));
-        model.addAttribute("role", user.getRole().name());
+    public String showWorkerForm(Model model, @ModelAttribute("globalUser") GlobalAppUser globalAppUser, @ModelAttribute("user") AppUser user) {
+        model.addAttribute("globalUser", globalAppUser);
+        model.addAttribute("dyshaworker", new DyshaWorker(user.getFullName(), null, null, null, null, user.getId()));
         return "newdyshajobworker";
     }
 
@@ -45,8 +48,9 @@ public class DyshaWorkerController {
             return "newdyshajobworker";
         }
         worker.setUserId(user.getId());
+        worker.setStartedOn(LocalDateTime.now());
         dyshaWorkerService.save(worker);
-        return "redirect:/dyshajobs/workers";
+        return "redirect:/dyshajobs";
     }
 
     @ModelAttribute("role")
@@ -59,4 +63,9 @@ public class DyshaWorkerController {
         return appUserService.findByEmail(user.getName());
     }
 
+    @ModelAttribute("globalUser")
+    GlobalAppUser currentGlobalUser(Principal user) {
+        AppUser appUser = appUserService.findByEmail(user.getName());
+        return new GlobalAppUser(appUser, dyshaWorkerService.findByUserId(appUser.getId()));
+    }
 }

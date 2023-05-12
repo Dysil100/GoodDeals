@@ -7,38 +7,14 @@
   <link rel="stylesheet" th:href="@{/css/jobindex.css}" type="text/css" href="../static/css/jobindex.css"/>
 </head>
 <body>
-<header>
-  <nav>
-    <ul>
-      <li><a href="#" th:href="@{/dyshajobs/}">Accueil</a></li>
-      <li><a href="#" th:href="@{/dyshajobs/jobs}">Liste des jobs</a></li>
-      <li><a href="#" th:href="@{/dyshajobs/workers}">Liste des employés</a></li>
-      <li><a href="#" th:href="@{/dyshajobs/newjob}">Nouveau Job</a></li><! if role == admin>
-      <li><a href="#" th:href="@{/dyshajobs/newworker}">Nouvel Employé</a></li><!-- if role == admin-->
-      <li><a href="#" th:href="@{/dyshajobs/profile}">Mon profil</a></li> <!--TODO: implementataion; load information profil in combination withh Dysha Jobs-->
-      <!--fragment de footer et de barre 'doutil a ajouter sur toutes les pages Dysha-Job-->
-    </ul>
-    <form th:action="@{/productliste/search}" method="get">
-      <label for="keyword"></label>
-      <input id="keyword" name="keyword" type="text" placeholder="Rechercher un job..." aria-label="Rechercher">
-      <button type="submit">Rechercher</button>
-    </form>
-  </nav>
-</header>
-<main>
-  <section class="jobs">
-    <h2>Derniers jobs</h2>
-    <ul>
-      <li th:each="job : ${jobs}">
-        <h3 th:text="${job.title} + ' chez ' + ${job.entreprise}"></h3>
-        <p th:text="${job.description}"></p>
-        <p>Posté le <span th:text="${job.postedDate}"></span> par <span th:text="${job.employer}"></span> à <span th:text="${job.localisation}"></span></p>
-      </li>
-    </ul>
-  </section>
+<div class="main-content">
+<header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
+<main th:object="${globalUser}">
+  <section th:if="${jobs}" th:replace="fragments/general.html :: dyshaJobsListe(jobs=${jobs}, class='searchs', tittre=${jobs.size} + ' Resultats pour votre recherche')"></section>
+  <section th:if="${jobs}" th:replace="fragments/general.html :: dyshaJobsListe(jobs=${jobs}, class='jobs', tittre='Un appercu de jobs que nous proposons pour l\'instant')"></section>
+
 </main>
-<footer>
-  <p>&copy; 2023 - Site de jobs</p>
-</footer>
+</div>
+<footer th:replace="fragments/general.html :: dyshaJobsFooter"></footer>
 </body>
 </html>

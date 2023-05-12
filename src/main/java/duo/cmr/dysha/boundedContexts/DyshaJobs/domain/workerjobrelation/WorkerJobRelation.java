@@ -1,4 +1,4 @@
-package duo.cmr.dysha.boundedContexts.DyshaJobs.domain;
+package duo.cmr.dysha.boundedContexts.DyshaJobs.domain.workerjobrelation;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.photo;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
-import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaPhotoRepository;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -11,46 +11,51 @@ import java.util.List;
 
 @AllArgsConstructor
 @Repository
-public class DyshaPhotoRepositoryImpl implements DyshaPhotoRepository {
-    DaoPhotoRepository daoPhotoRepository;
+public class DyshaFileRepositoryImpl implements DyshaFileRepository {
+    DaoDyshaFileRepository daoDyshaFileRepository;
     @Override
     public void save(DyshaFile dyshaFile) {
-     daoPhotoRepository.save(toDyshaPhotoEntity(dyshaFile));
+     daoDyshaFileRepository.save(toDyshaFileEntity(dyshaFile));
     }
 
     @Override
-    public List<DyshaFile> findAllByTableNameAndUserIdAndEntityId(String dyshaworker, Long userId, Long id) {
-        return toDyshaPhotoList(daoPhotoRepository.findAllByTableNameAndUserIdAndEntityId(dyshaworker, userId, id));
+    public List<DyshaFile> findAllByTableNameAndUserIdAndEntityIdAndFileType(String dyshaworker, Long userId, Long id, String fileType) {
+        return toDyshaFileList(daoDyshaFileRepository.findAllByTableNameAndUserIdAndEntityIdAndFileType(dyshaworker, userId, id, fileType));
     }
 
     @Override
-    public String findLastByTableNameAndUserIdAndEntityId(String tableName, Long userId, Long entityId) {
-        List<DyshaFile> dyshaFiles = findAllByTableNameAndUserIdAndEntityId(tableName, userId, entityId);
+    public String findLastByTableNameAndUserIdAndEntityIdAndFileType(String tableName, Long userId, Long entityId, String fileType) {
+        List<DyshaFile> dyshaFiles = findAllByTableNameAndUserIdAndEntityIdAndFileType(tableName, userId, entityId, fileType);
         return dyshaFiles.isEmpty() ? "" : Base64.getEncoder().encodeToString(dyshaFiles.get(dyshaFiles.size() - 1).getPhoto());
     }
 
     @Override
-    public String findLastByTableNameAndEntityId(String tableName, Long entityId) {
-        List<DyshaFile> dyshaFiles = findAllByTableNameAndEntityId(tableName, entityId);
+    public String findLastByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType) {
+        List<DyshaFile> dyshaFiles = findAllByTableNameAndEntityIdAndFileType(tableName, entityId, fileType);
         return dyshaFiles.isEmpty() ? "" : Base64.getEncoder().encodeToString(dyshaFiles.get(dyshaFiles.size() - 1).getPhoto());
     }
 
     @Override
-    public List<DyshaFile> findAllByTableNameAndEntityId(String tableName, Long entityId) {
-        return toDyshaPhotoList(daoPhotoRepository.findAllByTableNameAndEntityId(tableName, entityId));
+    public List<DyshaFile> findAllByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType) {
+        return toDyshaFileList(daoDyshaFileRepository.findAllByTableNameAndEntityIdAndFileType(tableName, entityId, fileType));
     }
 
-    private List<DyshaFile> toDyshaPhotoList(Iterable<DyshaFileEntity> allBys) {
+    @Override
+    public List<DyshaFile> findAllByEntityId(Long entityId) {
+        return toDyshaFileList(daoDyshaFileRepository.findAllByEntityId(entityId));
+    }
+
+    private List<DyshaFile> toDyshaFileList(Iterable<DyshaFileEntity> allBys) {
         List<DyshaFile> result = new ArrayList<>();
-        allBys.forEach(e -> result.add(toDyshaPhoto(e)));
+        allBys.forEach(e -> result.add(toDyshaFile(e)));
         return result;
     }
 
-    private DyshaFile toDyshaPhoto(DyshaFileEntity e) {
+    private DyshaFile toDyshaFile(DyshaFileEntity e) {
         return new DyshaFile(e.getId(), e.getUserId(), e.getEntityId(), e.getTableName(), e.getFileType(), e.getFile());
     }
 
-    private DyshaFileEntity toDyshaPhotoEntity(DyshaFile dyshaFile) {
+    private DyshaFileEntity toDyshaFileEntity(DyshaFile dyshaFile) {
         return new DyshaFileEntity(dyshaFile.getUserId(), dyshaFile.getEntityId(), dyshaFile.getTableName(), dyshaFile.getFileType(), dyshaFile.getPhoto());
     }
 }

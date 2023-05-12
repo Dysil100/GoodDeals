@@ -58,6 +58,11 @@ public class AppUserRepositoryImpl implements AppUserRepository {
         return toAppUserList(daoAppUserRepository.findAllById(idsFromHash));
     }
 
+    @Override
+    public AppUser findById(Long userId) {
+        return toAppUser(daoAppUserRepository.findById(userId).get());
+    }
+
     private List<AppUser> toAppUserList(Iterable<AppUserEntity> allByIds) {
         List<AppUser> appUsers = new ArrayList<>();
         allByIds.forEach(e -> appUsers.add(toAppUser(e)));

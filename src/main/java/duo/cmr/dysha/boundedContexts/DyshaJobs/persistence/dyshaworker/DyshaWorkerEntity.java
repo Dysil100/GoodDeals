@@ -19,11 +19,13 @@ public class DyshaWorkerEntity {
     private String description;
     private String location;
     private LocalDateTime startedOn;
+    private Long userId;
 
-    public DyshaWorkerEntity(String name, String description, String location, LocalDateTime startedOn) {
+    public DyshaWorkerEntity(String name, String description, String location, LocalDateTime startedOn, Long userId) {
         this.name = name;
         this.description = description;
         this.location = location;
         this.startedOn = startedOn;
+        this.userId = userId;
     }
 }

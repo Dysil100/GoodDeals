@@ -1,6 +1,6 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces;
 
-import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.WorkerJobRelation;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.workerjobrelation.WorkerJobRelation;
 
 import java.util.List;
 
@@ -11,4 +11,6 @@ public interface WorkerJobRelationRepository {
     List<WorkerJobRelation> findAllByJobId(Long jobId);
 
     List<WorkerJobRelation> findAllByWorkerId(Long workerId);
+
+    void save(WorkerJobRelation workerJobRelation);
 }

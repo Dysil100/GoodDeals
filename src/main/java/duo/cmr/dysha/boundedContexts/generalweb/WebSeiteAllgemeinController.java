@@ -14,6 +14,11 @@ public class WebSeiteAllgemeinController {
         return "loginorregister";
     }
 
+    @GetMapping("/login")
+    public String login(Model model){
+        return "login";
+    }
+
     @GetMapping(CONTACTS)
     public String contacts(Model model){
         return "contacts";

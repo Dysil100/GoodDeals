@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
+@AllArgsConstructor
 @Table("workerjobrelation")
 public class WorkerJobRelationEntity {
 
@@ -24,5 +24,9 @@ public class WorkerJobRelationEntity {
         this.jobId = jobId;
         this.workerId = workerId;
         this.startedOn = startedOn;
+    }
+
+    public WorkerJobRelationEntity() {
+        // Constructeur par défaut
     }
 }

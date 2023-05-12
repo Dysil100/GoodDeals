@@ -11,19 +11,22 @@ import org.springframework.data.relational.core.mapping.Table;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-@Table("photos")
-public class DyshaPhotoEntity {
+@Table("dysha_file")
+public class DyshaFileEntity {
     @Id
     private int id;
     private Long userId;
     private Long entityId;
     private String tableName;
-    private byte[] photo;
+    private String fileType;
+    private byte[] file;
 
-    public DyshaPhotoEntity(Long userId, Long entityId, String tableName, byte[] photo) {
+    public DyshaFileEntity(Long userId, Long entityId, String tableName, String fileType, byte[] file) {
         this.userId = userId;
         this.entityId = entityId;
         this.tableName = tableName;
-        this.photo = photo;
+        this.file = file;
+        this.fileType = fileType;
     }
+
 }

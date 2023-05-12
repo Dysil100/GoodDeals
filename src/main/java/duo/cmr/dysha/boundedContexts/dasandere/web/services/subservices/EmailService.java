@@ -17,7 +17,6 @@ import javax.mail.internet.MimeMessage;
 public class EmailService implements EmailSender {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailService.class);
-
     private final JavaMailSender mailSender;
 
     @Override
@@ -30,7 +29,7 @@ public class EmailService implements EmailSender {
             helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setFrom("willagropastoral@gmail.com");
+            helper.setFrom("dyshashop0@gmail.com");
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
             LOGGER.error("failed to send email", e);
@@ -117,4 +116,5 @@ public class EmailService implements EmailSender {
     public void buildAndSend(String name, String link, String to, String subject, String bodyMsg) {
         send(to, buildEmail(name, link, subject, bodyMsg), subject);
     }
+
 }

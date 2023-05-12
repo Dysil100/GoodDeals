@@ -4,14 +4,16 @@ import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
 
 import java.util.List;
 
-public interface DyshaPhotoRepository {
+public interface DyshaFileRepository {
     void save(DyshaFile dyshaFile);
 
-    List<DyshaFile> findAllByTableNameAndUserIdAndEntityId(String dyshaworker, Long userId, Long id);
+    List<DyshaFile> findAllByTableNameAndUserIdAndEntityIdAndFileType(String dyshaworker, Long userId, Long id, String fileType);
 
-    String findLastByTableNameAndUserIdAndEntityId(String dyshaworker, Long userId, Long entityId);
+    String findLastByTableNameAndUserIdAndEntityIdAndFileType(String dyshaworker, Long userId, Long entityId, String fileType);
 
-    String findLastByTableNameAndEntityId(String tableName, Long entityId);
+    String findLastByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType);
 
-    List<DyshaFile> findAllByTableNameAndEntityId(String tableName, Long entityId);
+    List<DyshaFile> findAllByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType);
+
+    List<DyshaFile> findAllByEntityId(Long entityId);
 }

@@ -81,6 +81,77 @@
     </div>
 </header>
 
+<!-- dyshaJos Fragment -->
+<header th:fragment="dyshaJobsHeader">
+    <nav>
+        <ul>
+            <li><a href="#" th:href="@{/dyshajobs/}">Accueil</a></li>
+            <li><a href="#" th:href="@{/dyshajobs/mesDyshaJobs}">Mes DyshaJobs</a></li>
+            <li><a href="#" th:href="@{/dyshajobs/mesdocuments}">Mes Documents</a></li>
+            <li th:if="${globalUser.user.role.name()} == 'ROLE_ADMIN'"><a href="#" th:href="@{/dyshajobs/workers}">Liste des employés</a></li>
+            <li th:if="${globalUser.user.role.name()} == 'ROLE_ADMIN'"><a href="#" th:href="@{/dyshajobs/createDyshaJob}">Nouveau Job</a></li><! if role == admin>
+            <li th:if="${!globalUser.dyshaUserExist}"><a href="#" th:href="@{/dyshajobs/newdyshaworker}">Ajouter une description</a></li>
+            <li th:if="${globalUser.dyshaUserExist}"><a href="#" th:href="@{/dyshajobs/dyshaprofil}">Mon profil</a></li> <!--TODO: implementataion; load information profil in combination withh Dysha Jobs-->
+            <!--fragment de footer et de barre 'doutil a ajouter sur toutes les pages Dysha-Job-->
+        </ul>
+        <form th:action="@{/productliste/search}" method="get">
+            <label for="keyword"></label>
+            <input id="keyword" name="keyword" type="text" placeholder="Rechercher un job..." aria-label="Rechercher">
+            <button type="submit">Rechercher</button>
+        </form>
+    </nav>
+</header>
+
+<div th:fragment="dyshaJobsListe(jobs, class, tittre)">
+    <section th:class="${class}">
+        <h2 th:text="${titre}">Derniers jobs</h2>
+        <div th:each="job : ${jobs}">
+            <a th:href="@{/dyshajobs/jobdetails/{id}(id=${job.id})}" class="btn btn-primary" th:class="'job-ad'"
+               th:style="'--job-bg-image: url(data:image/jpeg;base64,' + ${job.encodedImage} + ')'">
+            <h3 th:text="${job.title} + ' chez ' + ${job.employeur}"></h3>
+            <p th:text="${job.description}"></p>
+            <p>Posté le <span th:text="${job.postedDate}"></span> par <span th:text="${job.getEmployeur}"></span> à <span th:text="${job.location}"></span></p>
+            </a>
+        </div>
+    </section>
+</div>
+
+<div th:fragment="dyshaJobsFooter">
+    <footer class="footer">
+
+        <div class="footer-col">
+            <h4>About</h4>
+            <ul>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+                <li><a href="#">Advertising </a></li>
+                <li><a href="#">Job listing </a></li>
+                <li><a href="#">Career counselling</a></li>
+                <li><a href="#">Recruitment</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <ul>
+                <li><a href="#">Terms of use</a></li>
+                <li><a href="#">Privacy policy</a></li>
+                <li><a href="#">Accessibility</a></li>
+            </ul>
+        </div>
+        <p>&copy; 2023 - Dysha-Jobs Site de petites annonces de jobs</p>
+    </footer>
+</div>
+
+
 //General index
 <header th:fragment="indexheader" id="myTopnav" class="navbar-expand-md">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">

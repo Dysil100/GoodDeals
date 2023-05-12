@@ -2,6 +2,7 @@ package duo.cmr.dysha.boundedContexts.dasandere.web.securityconfiguration;
 
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -9,8 +10,10 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -21,11 +24,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         HttpSecurity security = http.authorizeRequests(a -> a.antMatchers(
                         "/maileingabe", "/passwordeingabe", "/notifications", "/" , "/registration", "/registration/*", "/registration/confirm/*", "/delete/confirm",
-                        "/", "/static/**", "/images/*", "/contacts", "/telecharger", "../static/*", "/css/*"
+                        "/", "/static/**", "/images/*", "/login", "/contacts", "/telecharger", "../static/*", "/css/*"
                         //"/avis", "/analyse"
                 )
                 .permitAll()
@@ -34,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         security.logout().clearAuthentication(true)
                 .deleteCookies().invalidateHttpSession(true)
-                .permitAll().and().formLogin()
+                .permitAll().and().formLogin()//.loginPage("/login")
                 .successHandler(myAuthenticationSuccessHandler())
                 .and().userDetailsService(appUserService);
     }

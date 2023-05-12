@@ -22,4 +22,6 @@ public interface AppUserRepository {
     List<AppUser> alle();
 
     List<AppUser> findByIds(List<Long> idsFromHash);
+
+    AppUser findById(Long userId);
 }

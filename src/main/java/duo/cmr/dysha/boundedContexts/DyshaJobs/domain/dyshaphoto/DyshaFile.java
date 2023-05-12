@@ -7,26 +7,23 @@ import lombok.*;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-public class DyshaPhoto {
+public class DyshaFile {
     private int id;
     private Long userId;
     private Long entityId;
     private String tableName;
+    private String fileType;
     private byte[] photo;
 
-    public DyshaPhoto(Long userId, Long entityId, String tableName, byte[] photo) {
+    public DyshaFile(Long userId, Long entityId, String tableName, String fileType, byte[] files) {
         this.userId = userId;
         this.entityId = entityId;
         this.tableName = tableName;
-        this.photo = photo;
+        this.photo = files;
+        this.fileType = fileType;
     }
 
-    public DyshaPhoto(Long userId, Long entityId, String tableName) {
-        this.userId = userId;
-        this.entityId = entityId;
-        this.tableName = tableName;
-    }
 
-    public DyshaPhoto() {
+    public DyshaFile() {
     }
 }

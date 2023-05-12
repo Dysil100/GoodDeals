@@ -20,7 +20,7 @@ import static duo.cmr.dysha.boundedContexts.routen.Routen.*;
 @Controller
 @RequestMapping(ADMINROUTE)
 @AdminOnly
-public class ProductAdminController {
+public class  ProductAdminController {
 
     private ProductService productService;
     private ServiceSupreme serviceSupreme;

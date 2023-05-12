@@ -1,37 +1,25 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.domain.filesType;
 
-import javax.servlet.http.Part;
 
 public class FileTypeDetector {
-
-    public static String determineFileType(Part file) {
-        // Obtenir l'extension du fichier
-        String fileName = file.getName();
-        String extension = fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase();
-
-        // Définir les types de fichiers acceptés
-        String[] imageTypes = {"jpg", "jpeg", "png", "gif"};
-        String[] videoTypes = {"mp4", "avi", "mov"};
-        String[] pdfTypes = {"pdf"};
-
-        // Vérifier si l'extension correspond à un type de fichier accepté
-        if (containsExtsn(extension, imageTypes)) {
-            return "image";
-        } else if (containsExtsn(extension, videoTypes)) {
-            return "video";
-        } else if (containsExtsn(extension, pdfTypes)) {
-            return "pdf";
-        } else {
-            return "unknown";
-        }
+    public FileTypeDetector() {
     }
 
-    private static boolean containsExtsn(String value, String[] array) {
-        for (String str : array) {
-            if (str.equalsIgnoreCase(value)) {
-                return true;
+    public static String determineFileType(byte[] fileBytes) {
+        if (fileBytes.length >= 3 && fileBytes[0] == (byte) 0xFF && fileBytes[1] == (byte) 0xD8 && fileBytes[2] == (byte) 0xFF) {
+            return "image";
+        }
+        if (fileBytes.length >= 4 && fileBytes[0] == (byte) 0x25 && fileBytes[1] == (byte) 0x50 && fileBytes[2] == (byte) 0x44 && fileBytes[3] == (byte) 0x46) {
+            return "pdf";
+        }
+        if (fileBytes.length >= 4 && fileBytes[0] == (byte) 0x66 && fileBytes[1] == (byte) 0x74 && fileBytes[2] == (byte) 0x79 && fileBytes[3] == (byte) 0x70) {
+            if (fileBytes.length >= 8 && fileBytes[4] == (byte) 0x6D && fileBytes[5] == (byte) 0x70 && fileBytes[6] == (byte) 0x34 && fileBytes[7] == (byte) 0x32) {
+                return "video/mp4";
             }
         }
-        return false;
+        if (fileBytes.length >= 3 && fileBytes[0] == (byte) 0x49 && fileBytes[1] == (byte) 0x44 && fileBytes[2] == (byte) 0x33) {
+            return "audio/mp3";
+        }
+        return "unknown";
     }
 }

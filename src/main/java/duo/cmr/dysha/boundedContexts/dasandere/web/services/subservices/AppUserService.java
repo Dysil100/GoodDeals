@@ -173,4 +173,8 @@ public class AppUserService implements UserDetailsService {
     public List<AppUser> findAllByIds(List<Long> ids) {
         return appUserRepository.findByIds(ids);
     }
+
+    public AppUser findById(Long userId) {
+        return appUserRepository.findById(userId);
+    }
 }

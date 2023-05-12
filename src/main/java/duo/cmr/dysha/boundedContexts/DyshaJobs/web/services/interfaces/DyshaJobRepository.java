@@ -1,6 +1,6 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces;
 
-import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.DyshaJob;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
 
 import java.util.List;
 
@@ -12,4 +12,9 @@ public interface DyshaJobRepository {
     List<DyshaJob> restLostJobs(String query);
 
     List<DyshaJob> findAllById(List<Long> jobIds);
+
+    void save(DyshaJob dyshaJob);
+
+    DyshaJob findByID(Long id);
+
 }
