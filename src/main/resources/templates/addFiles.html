@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/jobindex.css}" type="text/css" href="../static/css/jobindex.css"/>
+    <link rel="stylesheet" th:href="@{/css/addphotos.css}" type="text/css" href="../static/css/addphotos.css"/>
+</head>
+<body>
+<header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
+<form th:object="${dyshaFile}" th:action="@{/dyshajobs/photos}" method="post" enctype="multipart/form-data">
+
+    <!-- ID utilisateur -->
+    <label hidden for="userId">User ID:</label>
+    <input  hidden th:value="${dyshaFile.userId}" type="number" id="userId" name="userId"/>
+
+    <!-- ID de l'entité -->
+    <label hidden for="entityId">Entity ID:</label>
+    <input  hidden th:value="${dyshaFile.entityId}" type="number" id="entityId" name="entityId"/>
+
+    <!-- Nom de la table -->
+    <label hidden for="tableName">Table Name:</label>
+    <input hidden th:value="${dyshaFile.tableName}" type="text" id="tableName" name="tableName"/>
+
+    <!-- Choisir la photo -->
+    <label for="photoPart">Chosse the Photo to upload</label>
+    <input type="file" id="photoPart" name="photoPart"/>
+
+    <!-- Bouton Soumettre -->
+    <input type="submit" value="Submit"/>
+
+</form>
+<footer th:replace="fragments/general.html :: dyshaJobsFooter"></footer>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.domain;
 
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.List;
