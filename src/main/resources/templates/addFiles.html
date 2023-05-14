@@ -9,57 +9,55 @@
 <body>
 <header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
 
-<div>
-<form th:object="${dyshaFile}" th:action="@{/dyshajobs/files}" method="post" enctype="multipart/form-data">
+<div th:if="${dyshaFile}">
+    <form th:if="${((dyshaFile.tableName == 'dyshauser' || dyshaFile.tableName == 'dyshauser') && globalUser.user.role.name() == 'ROLE_USER') || globalUser.user.role.name() == 'ROLE_ADMIN' || globalUser.user.role.name() == 'ROLE_LEADER'}" th:object="${dyshaFile}" th:action="@{/dyshajobs/files}" method="post" enctype="multipart/form-data">
+        <!-- ID utilisateur -->
+        <label hidden for="userId"></label>
+        <input  hidden th:value="${dyshaFile.userId}" type="number" id="userId" name="userId"/>
 
-    <!-- ID utilisateur -->
-    <label hidden for="userId">User ID:</label>
-    <input  hidden th:value="${dyshaFile.userId}" type="number" id="userId" name="userId"/>
-    <!-- ID de l'entité -->
-    <label hidden for="entityId">Entity ID:</label>
-    <input  hidden th:value="${dyshaFile.entityId}" type="number" id="entityId" name="entityId"/>
-    <!-- Nom de la table -->
-    <div th:if="${dyshaFile.tableName == null}">
-    <label for="tableName">Table Name:</label>
-        <select id="tableName" name="tableName">
-            <option value="dyshaworker">Image</option>
-            <option value="usersPDFs">PDF</option>
-            <!--option value="video/mp4">Video</option>
-            <option value="audio/mp3">Audio</option-->
-        </select>
-    </div>
-    <!-- Choisir la photo -->
-    <label for="file">Chosse the Photo to upload</label>
-    <input type="file" id="file" name="file"/>
+        <!-- ID de l'entité -->
+        <label hidden for="entityId"></label>
+        <input  hidden th:value="${dyshaFile.entityId}" type="number" id="entityId" name="entityId"/>
 
-    <!-- Bouton Soumettre -->
-    <input type="submit" value="Submit"/>
+        <!-- Nom de la table -->
+        <label hidden for="tableName"></label>
+        <input hidden th:value="${dyshaFile.tableName}" type="text" id="tableName" name="tableName"/>
 
-</form>
+        <label hidden for="fileType"></label>
+        <input hidden th:value="${dyshaFile.fileType}"  type="text" id="fileType" name="fileType"/>
+        <div th:if="${#fields.hasErrors('fileType')}" th:errors="*{fileType}" class="alert alert-danger"></div>
+        <!-- Choisir la photo -->
+        <label for="file">Chosse the Photo to upload</label>
+        <input type="file" id="file" name="file"/>
+
+        <!-- Bouton Soumettre -->
+        <input type="submit" value="Submit"/>
+    </form>
 </div>
     <!-- liste des fichiers -->
 <div class="container" th:if="${dyshaFiles}">
-    <h1>Liste de fichiers</h1>
+    <h1>Liste de vos fichiers</h1>
     <table>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>User ID</th>
-            <th>Entity ID</th>
-            <th>Nom de la table</th>
+            <th>Cathegorie</th>
             <th>Type de fichier</th>
-            <th>Fichier</th>
+            <th>Telchargement</th>
+            <th th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}">Surpimer</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="file : ${dyshaFiles}">
-            <td th:text="${file.id}"></td>
-            <td th:text="${file.userId}"></td>
-            <td th:text="${file.entityId}"></td>
             <td th:text="${file.tableName}"></td>
             <td th:text="${file.fileType}"></td>
-            <td>
-                <a th:href="@{'/download/' + ${file.id}}" th:text="${file.photo != null ? 'Télécharger' : 'Aucun fichier'}"></a>
+            <td class="jobs" >
+                <a th:href="@{/dyshajobs/download/file/{fileId}(fileId=${file.id})}" th:text="${file.file != null ? 'Télécharger' : 'Aucun fichier'}"></a>
+            </td>
+            <td class="delete-file" >
+                <form th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}" th:action="@{/dyshajobs/delete/file}" method="post">
+                    <input type="hidden" name="fileId" th:value="${file.id}" />
+                    <button type="submit" th:text="${file.file != null ? 'Suprimer ce fichier' : 'Aucun fichier'}">Suprimer le fichier</button>
+                </form>
             </td>
         </tr>
         </tbody>

@@ -1,4 +1,4 @@
-package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.photo;
+package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshafile;
 
 
 import lombok.*;

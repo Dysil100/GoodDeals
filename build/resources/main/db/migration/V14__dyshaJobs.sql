@@ -22,6 +22,7 @@ create table if not exists workerjobrelation (
                     id serial primary key,
                     job_id INTEGER ,
                     worker_id INTEGER ,
+                    validation bool ,
                     started_on timestamp default current_timestamp
     );
 

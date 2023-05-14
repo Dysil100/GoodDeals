@@ -18,11 +18,13 @@ public class WorkerJobRelationEntity {
     private Long id;
     private Long jobId;
     private Long workerId;
+    private boolean validation;
     private LocalDateTime startedOn;
 
-    public WorkerJobRelationEntity(Long jobId, Long workerId, LocalDateTime startedOn) {
+    public WorkerJobRelationEntity(Long jobId, Long workerId, boolean validation, LocalDateTime startedOn) {
         this.jobId = jobId;
         this.workerId = workerId;
+        this.validation = validation;
         this.startedOn = startedOn;
     }
 

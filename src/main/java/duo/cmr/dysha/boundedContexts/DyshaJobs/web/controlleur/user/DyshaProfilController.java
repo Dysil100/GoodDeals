@@ -1,6 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.user;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.globaluser.GlobalAppUser;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaFileService;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaWorkerService;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
@@ -19,18 +20,12 @@ import java.security.Principal;
 public class DyshaProfilController {
     private AppUserService appUserService;
     DyshaWorkerService dyshaWorkerService;
+    DyshaFileService dyshaFileService;
 
     @GetMapping("/dyshajobs/dyshaprofil")
     public String showProfil(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
         model.addAttribute("globalUser", user);
-        return "dyshaprofil";
-    }
-
-    @GetMapping("/dyshajobs/dyshaprofil/{id}")
-    public String showProfilDetails(@PathVariable("id") Long userId,  Authentication authentication, Model model, @ModelAttribute("user") AppUser user) {
-        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findByUserId(userId)));
-        model.addAttribute("role", user.getRole().name());
-        model.addAttribute("user", appUserService.findById(userId));
+        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByUserId(user.getUser().getId()));
         return "dyshaprofil";
     }
 

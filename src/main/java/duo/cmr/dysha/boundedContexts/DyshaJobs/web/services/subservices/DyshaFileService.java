@@ -17,7 +17,19 @@ public class DyshaFileService {
         dyshaFileRepository.save(dyshaFile);
     }
 
-    public List<DyshaFile> findAllByEntityId(Long entityId) {
-        return dyshaFileRepository.findAllByEntityId(entityId);
+    public List<DyshaFile> findAllByUserId(Long entityId) {
+        return dyshaFileRepository.findAllByUserId(entityId);
+    }
+
+    public boolean cVExistByUserId(Long userId) {
+        return !dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("CV_document", userId, "pdf").isBlank();
+    }
+
+    public DyshaFile findFieById(Long fileId) {
+        return dyshaFileRepository.findFieById(fileId);
+    }
+
+    public void deleteById(Long fileId) {
+        dyshaFileRepository.deleteById(fileId);
     }
 }

@@ -37,7 +37,7 @@ public class DyshaWorkerController {
     @GetMapping("/dyshajobs/newdyshaworker")
     public String showWorkerForm(Model model, @ModelAttribute("globalUser") GlobalAppUser globalAppUser, @ModelAttribute("user") AppUser user) {
         model.addAttribute("globalUser", globalAppUser);
-        model.addAttribute("dyshaworker", new DyshaWorker(user.getFullName(), null, null, null, null, user.getId()));
+        model.addAttribute("dyshaworker", new DyshaWorker(user.getFullName(), null, null, null,  null, null, user.getId()));
         return "newdyshajobworker";
     }
 

@@ -15,5 +15,9 @@ public interface DyshaFileRepository {
 
     List<DyshaFile> findAllByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType);
 
-    List<DyshaFile> findAllByEntityId(Long entityId);
+    List<DyshaFile> findAllByUserId(Long userId);
+
+    DyshaFile findFieById(Long fileId);
+
+    void deleteById(Long fileId);
 }

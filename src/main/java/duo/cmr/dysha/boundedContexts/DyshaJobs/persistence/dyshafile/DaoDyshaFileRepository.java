@@ -1,4 +1,4 @@
-package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.photo;
+package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshafile;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,4 +14,6 @@ public interface DaoDyshaFileRepository extends CrudRepository<DyshaFileEntity, 
     Iterable<DyshaFileEntity> findAllByTableNameAndEntityIdAndFileType(String tableName, Long entityId, String fileType);
 
     Iterable<DyshaFileEntity> findAllByEntityId(Long entityId);
+
+    Iterable<DyshaFileEntity> findAllByUserId(Long userId);
 }

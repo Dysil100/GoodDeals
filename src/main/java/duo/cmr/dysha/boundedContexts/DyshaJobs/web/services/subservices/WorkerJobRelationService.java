@@ -20,4 +20,16 @@ public class WorkerJobRelationService {
     public void save(WorkerJobRelation workerJobRelation) {
         workerJobRelationRepository.save(workerJobRelation);
     }
+
+    public WorkerJobRelation findById(Long id) {
+        return workerJobRelationRepository.findById(id);
+    }
+
+    public void validateJobRelationById(Long id) {
+        workerJobRelationRepository.validateJobRelationById(id);
+    }
+
+    public void deleteJobRelationById(Long id) {
+        workerJobRelationRepository.deleteJobRelationById(id);
+    }
 }

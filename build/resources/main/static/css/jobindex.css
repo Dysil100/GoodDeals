@@ -225,3 +225,21 @@ footer {
 p, h1, h2, h3, td, th, span, h2 {
     color: black;
 }
+
+
+.delete-file button {
+    display: block;
+    background-color: #ea3939;
+    border-radius: 20px;
+    padding: 20px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.delete-file button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+

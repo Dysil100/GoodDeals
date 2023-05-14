@@ -116,3 +116,20 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #2980b9;
 }
+
+.alert {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+}
+
+.alert strong {
+    font-weight: bold;
+}
+
+.alert p {
+    margin-bottom: 0;
+}
