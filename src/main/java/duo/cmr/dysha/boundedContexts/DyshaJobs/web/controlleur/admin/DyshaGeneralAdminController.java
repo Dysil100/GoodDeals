@@ -59,8 +59,9 @@ public class DyshaGeneralAdminController {
     @PostMapping("/dyshajobs/delete/file")
     public String deleteFile(@ModelAttribute("fileId") Long fileId, @ModelAttribute("globalUser") GlobalAppUser user) {
         // Récupérer le fichier à partir de l'ID
+        Long userId = dyshaFileService.findFileById(fileId).getUserId();
         dyshaFileService.deleteById(fileId);
-        return "addFiles";
+        return "redirect:/dyshajobs/mesdocuments/" + userId;
     }
 
     @GetMapping("/dyshajobs/dyshaprofil/{userId}")

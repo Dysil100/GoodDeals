@@ -70,15 +70,15 @@ public class DyshaFilesController {
             return "addFiles";
         }
 
-        // Créer un objet Photo et Enregistrer la photo
+        // Créer un fichier Photo et Enregistrer la photo
         dyshaFileService.save(new DyshaFile(dyshaFile.getUserId(), dyshaFile.getEntityId(), dyshaFile.getTableName(), fileType, filesDataBytes));
         return "redirect:/dyshajobs";
     }
 
-    @GetMapping("/dyshajobs/download/{fileId}")
+    @GetMapping("/dyshajobs/download/file/{fileId}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long fileId, @ModelAttribute("globalUser") GlobalAppUser user) {
         // Récupérer le fichier à partir de l'ID
-        DyshaFile dyshaFile = dyshaFileService.findFieById(fileId);
+        DyshaFile dyshaFile = dyshaFileService.findFileById(fileId);
         // Vérifier si le fichier existe
         if (dyshaFile == null) {
             return ResponseEntity.notFound().build();

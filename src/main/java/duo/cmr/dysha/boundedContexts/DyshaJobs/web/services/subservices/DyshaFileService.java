@@ -25,7 +25,7 @@ public class DyshaFileService {
         return !dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("CV_document", userId, "pdf").isBlank();
     }
 
-    public DyshaFile findFieById(Long fileId) {
+    public DyshaFile findFileById(Long fileId) {
         return dyshaFileRepository.findFieById(fileId);
     }
 

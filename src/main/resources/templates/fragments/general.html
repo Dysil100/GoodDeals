@@ -100,6 +100,14 @@
             <input id="keyword" name="keyword" type="text" placeholder="Rechercher un job..." aria-label="Rechercher">
             <button type="submit">Rechercher</button>
         </form>
+        <div class="profile">
+            <div class="profile-image">
+                <img th:src="@{${user.profilePicture}}" alt="">
+            </div>
+            <div class="profile-name">
+                <p th:text="${user.name}"></p>
+            </div>
+        </div>
     </nav>
 </header>
 
