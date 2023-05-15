@@ -1,32 +1,20 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<header th:insert="fragments/general.html :: head(title='WillAgropastoral-maileingabe')"></header>
+<link rel="stylesheet" th:href="@{/css/maileingabe.css}" type="text/css" href="/static/css/maileingabe.css" />
 <body>
-<div class="container-fluid">
-    <form th:action="@{/maileingabe}" method="post" style="max-width: 400px; margin: 0 auto;">
-        <h2>Entrez votre Email</h2>
-        <div class="border border-secondary rounded p-3">
-            <div>
-                <p><input type="email" name="email" required class="form-control" placeholder="E-mail"/>
-                </p>
-            </div>
-            <div class="btn btn-primary">
-                <p><input type="submit" value="Send Mail" class="btn btn-primary"/></p>
-            </div>
+<div class="container" >
+    <h2>Email du compte a recuperer</h2>
+    <form method="post"  th:action="@{/maileingabe}">
+        <div class="input-group">
+            <input type="email" id="email" required>
+            <label for="email">Email</label>
         </div>
+        <button type="submit">Submit</button>
     </form>
-    <footer th:replace="fragments/general.html :: footer"></footer>
+    <div class="create-account">
+        <a href="#" th:href="@{/login}">login</a>
+    </div>
 </div>
 </body>
-<script>
-    function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "navbar-expand") {
-            x.className += "navbar-expand-md";
-        } else {
-            x.className = "navbar-expand";
-        }
-    }
-</script>
 </html>

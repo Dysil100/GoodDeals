@@ -56,4 +56,7 @@ public class ServiceSupreme {
         return chatDiscussionHash;
     }
 
+    public AppUser authenticateUser(String username, String password) {
+        return null;
+    }
 }

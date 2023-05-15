@@ -23,7 +23,8 @@ public class RegistrationController {
     @GetMapping(REGISTRATION)
     public String registerForm(Model model, @ModelAttribute("formular") RegistrationRequest request) {
         model.addAttribute("form", request);
-        return "registration";
+        model.addAttribute("registration", true);
+        return "login";
     }
 
     @PostMapping(REGISTRATION)

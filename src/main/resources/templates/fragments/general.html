@@ -84,6 +84,11 @@
 <!-- dyshaJos Fragment -->
 <header th:fragment="dyshaJobsHeader">
     <nav>
+        <form th:action="@{/productliste/search}" method="get">
+            <label for="keyword"></label>
+            <input id="keyword" name="keyword" type="text" placeholder="Rechercher un job..." aria-label="Rechercher">
+            <button type="submit">Rechercher</button>
+        </form>
         <ul>
             <li><a href="#" th:href="@{/dyshajobs/}">Accueil</a></li>
             <li th:if="${globalUser.dyshaUserExist()}"><a href="#" th:href="@{/dyshajobs/mesDyshaJobs}">Mes DyshaJobs</a></li>
@@ -92,22 +97,19 @@
             <li th:if="${globalUser.user.role.name()} == 'ROLE_ADMIN'"><a href="#" th:href="@{/dyshajobs/dyshaPostulats}">Les Postulat</a></li>
             <li th:if="${globalUser.user.role.name()} == 'ROLE_ADMIN'"><a href="#" th:href="@{/dyshajobs/createDyshaJob}">Nouveau Job</a></li><! if role == admin>
             <li th:if="${!globalUser.dyshaUserExist}"><a href="#" th:href="@{/dyshajobs/newdyshaworker}">Ajouter une description</a></li>
-            <li th:if="${globalUser.dyshaUserExist}"><a href="#" th:href="@{/dyshajobs/dyshaprofil}">Mon profil</a></li> <!--TODO: implementataion; load information profil in combination withh Dysha Jobs-->
+             <!--TODO: implementataion; load information profil in combination withh Dysha Jobs-->
             <!--fragment de footer et de barre 'doutil a ajouter sur toutes les pages Dysha-Job-->
+            <li th:if="${globalUser.dyshaUserExist}"><a href="#" th:href="@{/dyshajobs/dyshaprofil}">
+                <div class="profile">
+                    <div class="profile-image">
+                        <img th:src="@{'data:image/png;base64,' + ${globalUser.worker.encodedImageProfile}}" alt="Photo de profil">
+                    </div>
+                    <div class="profile-name">
+                        <p th:text="${globalUser.user.lastName}"></p>
+                    </div>
+                </div>
+            </a></li>
         </ul>
-        <form th:action="@{/productliste/search}" method="get">
-            <label for="keyword"></label>
-            <input id="keyword" name="keyword" type="text" placeholder="Rechercher un job..." aria-label="Rechercher">
-            <button type="submit">Rechercher</button>
-        </form>
-        <div class="profile">
-            <div class="profile-image">
-                <img th:src="@{${user.profilePicture}}" alt="">
-            </div>
-            <div class="profile-name">
-                <p th:text="${user.name}"></p>
-            </div>
-        </div>
     </nav>
 </header>
 
@@ -194,12 +196,13 @@
                     <a class="nav-link bage badge-info text-center" th:href="@{/telecharger}">Télécharger</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/logout}">Déconnexion</a>
-                </li>
+                    <form method="post" th:action="@{/logout}">
+                        <input type="hidden" name="_csrf" value="<csrf_token_value>"/>
+                        <button type="submit" class="nav-link badge badge-info text-center">Déconnexion</button>
+                    </form>                </li>
                 <span th:if="${#request.userPrincipal != null}">
                     <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_LEADER' or ${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link bage badge-info text-center" th:href="@{/leaderindex/avisliste}">Liste
-                            d'avis</a>
+                        <a class="nav-link bage badge-info text-center" th:href="@{/leaderindex/avisliste}">Liste d'avis</a>
                     </li>
                     <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_LEADER' or ${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
                         <a class="nav-link bage badge-info text-center" th:href="@{/leaderindex/projects}">Projects

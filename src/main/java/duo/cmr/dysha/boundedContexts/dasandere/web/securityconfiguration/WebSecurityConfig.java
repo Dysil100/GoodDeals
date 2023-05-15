@@ -1,6 +1,7 @@
 package duo.cmr.dysha.boundedContexts.dasandere.web.securityconfiguration;
 
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
+import io.micronaut.aop.InterceptorRegistry;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,14 +39,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         security.logout().clearAuthentication(true)
                 .deleteCookies().invalidateHttpSession(true)
-                .permitAll().and().formLogin()//.loginPage("/login")
-                .successHandler(myAuthenticationSuccessHandler())
-                .and().userDetailsService(appUserService);
-    }
+                .permitAll().and().formLogin().loginPage("/login").loginProcessingUrl("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .successHandler(myAuthenticationSuccessHandler())                .failureUrl("/login?error")
+                .and()
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
+    }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(appUserService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean

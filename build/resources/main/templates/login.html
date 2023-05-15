@@ -1,39 +1,71 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<header th:insert="fragments/general.html :: head(title='Willagropastoral Login')"></header>
-
+<link rel="stylesheet" th:href="@{/css/login.css}" type="text/css" href="../static/css/login.css"/>
 <body>
-<header th:replace="fragments/general.html :: indexheader"> </header>
-<div>
-    <h2>Please Login</h2>
-    <br/>
-</div>
-<div>
-    <h4><a th:href="@{/oauth2/authorization/google}">Login with Google</a></h4>
-    <h4><a th:href="@{/registration}">Registration</a></h4>
-</div>
-<div><p>OR</p></div>
-
-<form th:action="@{/login}" method="post" style="max-width: 400px; margin: 0 auto;">
-    <div class="border border-secondary rounded p-3">
-        <div th:if="${param.error}">
-            <p class="text-danger">Invalid username or password.</p>
+<div class="container" th:if="${login}">
+    <h2>Login To Dysha Job</h2>
+    <form method="post" th:action="@{/login}" >
+        <div class="input-group">
+            <input type="email" id="username" name="username" required>
+            <label for="username">Username</label>
         </div>
-        <div th:if="${param.logout}">
-            <p class="text-warning">You have been logged out.</p>
+        <div class="input-group">
+            <input type="password" id="password" name="password" required>
+            <label for="password">Password</label>
         </div>
-        <div>
-            <p><input type="email" name="email" required class="form-control" placeholder="E-mail" /></p>
-        </div>
-        <div>
-            <p><input type="password" name="pass" required class="form-control" placeholder="Password" /></p>
-        </div>
-        <div>
-            <p><input type="submit" value="Login" class="btn btn-primary" /></p>
-        </div>
+        <button type="submit">Login</button>
+    </form>
+    <div class="forgot-password">
+        <a href="#" th:href="@{/maileingabe}">Forgot password?</a>
+        <span>or</span>
+        <a href="#" th:href="@{/registration}">Create an account</a>
     </div>
-</form>
-<footer th:replace="fragments/general.html :: footer"> </footer>
+</div>
+
+<div class="container" th:if="${recovery}" >
+    <h2>Email du compte a recuperer</h2>
+    <form method="post"  th:action="@{/maileingabe}">
+        <div class="input-group">
+            <input type="email" id="email" required>
+            <label for="email">Email</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="forgot-password">
+        <a href="#" th:href="@{/registration}">Nouveau Compte</a>
+        <span>or</span>
+        <a href="#" th:href="@{/login}">Login</a>
+    </div>
+</div>
+
+<div class="container" th:if="${registration}">
+    <form th:object="${form}" th:action="@{/registration}" method="post" style="max-width: 400px; margin: 0 auto;">
+        <h2>Registration</h2>
+        <div class="input-group">
+            <input th:field="*{firstName}" type="text" id="firstName" name="firstName" required>
+            <label for="firstName">Prènom</label>
+        </div>
+        <div class="input-group">
+            <input th:field="*{lastName}" type="text" id="lastName"  name="lastName" required>
+            <label for="lastName">Nom</label>
+        </div>
+        <div class="input-group">
+            <input th:field="*{email}" type="email" id="email"  name="email" required>
+            <label for="email">E-mail</label>
+        </div>
+        <div class="input-group">
+            <input th:field="*{password}" type="password" id="password"  name="password" required>
+            <label for="password">Mot de Passe</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    <div class="forgot-password">
+        <a href="#" th:href="@{/maileingabe}">Forgot password?</a>
+        <span>or</span>
+        <a href="#" th:href="@{/login}">Login</a>
+    </div>
+</div>
+<script src="js/dyshalogin.js"></script>
 </body>
 </html>

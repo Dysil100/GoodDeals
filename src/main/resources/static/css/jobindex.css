@@ -94,13 +94,13 @@ nav form button[type="submit"] {
 }
 
 .searchs a:hover {
-    background-color: #e0e0e0;
+    background-color: #91fce7;
 
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 nav a:hover {
-    background-color: #455454;
+    background-color: #313131;
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
@@ -242,6 +242,8 @@ p, h1, h2, h3, td, th, span, h2 {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
+
+/* Profile */
 .profile {
     display: flex;
     align-items: center;
@@ -265,6 +267,8 @@ p, h1, h2, h3, td, th, span, h2 {
 
 .profile-name {
     font-weight: bold;
-    color: #333;
+    color: #00fdb1;
     text-align: right;
+    font-style: italic;
+    font-family: inherit;
 }

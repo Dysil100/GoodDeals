@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,12 +23,14 @@ public class RecoveryPasswordController {
     private ServiceSupreme serviceSupreme;
 
     @GetMapping(MAILEINGABE)
-    public String maileingabe() {
-        return "maileingabe";
+    public String maileingabe(Model model) {
+        model.addAttribute("recovery", true);
+        return "login";
     }
 
     @PostMapping(MAILEINGABE)
     public String maileingabePost(Model model, String email) {
+
         model.addAttribute("text", "Notifications: " + registrationService.recoverPassword(email));
         return "notifications";
     }
@@ -39,7 +42,8 @@ public class RecoveryPasswordController {
         if (serviceSupreme.tokenExist(token)) {
             mailPasswordPaar.setEmail(serviceSupreme.getUserByToken(token).getUsername()); // hidden inpu
             model.addAttribute("form", mailPasswordPaar);
-            return "passwordeingabe";
+            model.addAttribute("recovery", true);
+            return "login";
         } else {
             model.addAttribute("text", "Link expired");
             return "notifications";
@@ -49,7 +53,8 @@ public class RecoveryPasswordController {
     @GetMapping(PASSWORDEINGABE)
     public String passwordeingabe(Model model, MailPasswordPaar mailPasswordPaar) {
         model.addAttribute("form", mailPasswordPaar);
-        return "passwordeingabe";
+        model.addAttribute("recovery", true);
+        return "login";
     }
 
     @PostMapping(PASSWORDEINGABE)
