@@ -47,7 +47,6 @@ public class LeaderController {
     @ModelAttribute("text")
     String handle(Principal user) {
         AppUser userByEmail = serviceSupreme.getUserByEmail(user.getName());
-        System.out.println(userByEmail.getRole());
         return "au Leader " + userByEmail.getFirstName();
     }
 

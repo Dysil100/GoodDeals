@@ -16,4 +16,6 @@ public interface DaoDyshaFileRepository extends CrudRepository<DyshaFileEntity, 
     Iterable<DyshaFileEntity> findAllByEntityId(Long entityId);
 
     Iterable<DyshaFileEntity> findAllByUserId(Long userId);
+
+    Iterable<DyshaFileEntity> findAllByTableNameAndUserIdAndFileType(String tableName, Long userId, String fileType);
 }

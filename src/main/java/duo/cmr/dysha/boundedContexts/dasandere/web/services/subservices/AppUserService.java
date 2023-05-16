@@ -56,9 +56,10 @@ public class AppUserService implements UserDetailsService {
             if (!byEmail.get().getEnabled()) {
                 String bodyMsg = "Your actually have an account by us, Please click on the below link to activate it:";
                 if (stringToDate(tokenEntity.getExpiredAt()).isBefore(LocalDateTime.now())) {
-                    String newtoken = UUID.randomUUID().toString();
+                    //String newtoken = UUID.randomUUID().toString();
 
                     confirmationTokenService.updateTokenFor(appUser.getUsername());
+                    String newtoken = confirmationTokenService.findByUsername(appUser.getUsername()).get().getToken();
                     emailSender.buildAndSend(
                             appUser.getFirstName(), getLinkConfirmRegistration(newtoken), appUser.getUsername(), confirm_your_email_title, bodyMsg
                     );
@@ -80,9 +81,10 @@ public class AppUserService implements UserDetailsService {
                     .encode(appUser.getPassword());
             appUser.setPassword(encodedPassword);
             appUserRepository.save(appUser);
-            String token = UUID.randomUUID().toString();
-            
+            //String token = UUID.randomUUID().toString();
+
             confirmationTokenService.updateTokenFor(appUser.getUsername());
+            String token = confirmationTokenService.findByUsername(appUser.getUsername()).get().getToken();
 
             String bodyMsg = "Thank you for registering. Please click on the below link to activate your account:";
             emailSender.buildAndSend(appUser.getFirstName(), getLinkConfirmRegistration(token), appUser.getUsername(),
@@ -112,11 +114,11 @@ public class AppUserService implements UserDetailsService {
 
                 String name = byEmail.get().getFirstName();
                 String bodyMsg = """
-                        Are you sure you want to create a new password.
+                        Are you sure you want to create a new password?
                         Click on the below link to activate the password recover.
                         """;
                 emailSender.buildAndSend(name, getLinkDeleteWith(token), email, "Password recovery", bodyMsg);
-                return "ready for reset the password of " + email + "<br> Check your mails";
+                return "ready for reset the password of " + email + "? Then Check your mails";
             } else {
                 return "No token exist for " + email;
             }
@@ -144,6 +146,7 @@ public class AppUserService implements UserDetailsService {
     public void updatePassword(String password, String email) {
         appUserRepository.updatePassword(bCryptPasswordEncoder.encode(password), email);
         confirmationTokenService.updateByUsername(email);
+        userArchivRepository.updatePasswordByEmail(password, email);
     }
 
     public Optional<ConfirmationTokenEntity> getToken(String token) {

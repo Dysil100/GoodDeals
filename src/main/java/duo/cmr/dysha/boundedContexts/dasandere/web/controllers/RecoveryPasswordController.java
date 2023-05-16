@@ -10,8 +10,11 @@ import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.Locale;
 
 import static duo.cmr.dysha.boundedContexts.routen.Routen.*;
 
@@ -32,7 +35,8 @@ public class RecoveryPasswordController {
     public String maileingabePost(Model model, String email) {
 
         model.addAttribute("text", "Notifications: " + registrationService.recoverPassword(email));
-        return "notifications";
+        model.addAttribute("notification", true);
+        return "login";
     }
 
     @GetMapping(CONFIRMPASSWORDRECOVER)
@@ -42,26 +46,28 @@ public class RecoveryPasswordController {
         if (serviceSupreme.tokenExist(token)) {
             mailPasswordPaar.setEmail(serviceSupreme.getUserByToken(token).getUsername()); // hidden inpu
             model.addAttribute("form", mailPasswordPaar);
-            model.addAttribute("recovery", true);
+            model.addAttribute("passworeingabe", true);
             return "login";
         } else {
             model.addAttribute("text", "Link expired");
-            return "notifications";
+            model.addAttribute("notification", true);
+            return "login";
         }
     }
 
-    @GetMapping(PASSWORDEINGABE)
+    /*@GetMapping(PASSWORDEINGABE)
     public String passwordeingabe(Model model, MailPasswordPaar mailPasswordPaar) {
         model.addAttribute("form", mailPasswordPaar);
-        model.addAttribute("recovery", true);
+        model.addAttribute("passworeingabe", true);
         return "login";
-    }
+    }*/
 
     @PostMapping(PASSWORDEINGABE)
-    public String passwordeingabePost(Model model, MailPasswordPaar mailPasswordPaar) {
-        registrationService.updatePassword(mailPasswordPaar.getPassword(), mailPasswordPaar.getEmail());
+    public String passwordeingabePost(Model model, @ModelAttribute("form") MailPasswordPaar mailPasswordPaar) {
+        registrationService.updatePassword(mailPasswordPaar.getPassword(), mailPasswordPaar.getEmail().toLowerCase(Locale.ROOT).trim());
         model.addAttribute("text", "Notifications: Password updated with succes");
-        return "notifications";
+        model.addAttribute("notification", true);
+        return "login";
     }
 
     @Getter

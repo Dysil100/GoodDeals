@@ -18,8 +18,8 @@
   <h1>Mon Profil</h1>
 <div th:if="${globalUser.worker.hasNoImage()}" class="jobs"> <a th:href="@{/dyshajobs/files/{tablename}/{entityid}/{filesType} (tablename=${globalUser.worker.tableName}, entityid=${globalUser.worker.id}, filesType='image')}">Ajouter une photo de Profil</a></div>
 <div th:if="${!userHasCuriculumVitae}" class="jobs"> <a th:href="@{/dyshajobs/files/{tablename}/{entityid}/{filesType} (tablename='CV_document', entityid=${globalUser.worker.id}, filesType='pdf')}">Ajouter votre pdf Curiculum Vitae</a></div>
-<div th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}" class="jobs"> <a th:href="@{/dyshajobs/mesdocuments/{userId}/ (userId=${globalUser.worker.id})}">Les Document de cet utilisateurs</a></div>
-<div th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}" class="jobs"> <a th:href="@{/dyshajobs/mesDyshaJobs/{userId}/ (userId=${globalUser.worker.id})}">Les DyshaJobs de cet Utilisateur</a></div>
+<div th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}" class="jobs"> <a th:href="@{/dyshajobs/mesdocuments/{workerId}/ (workerId=${globalUser.worker.id})}">Les Document de cet utilisateurs</a></div>
+<div th:if="${globalUser.user.role.name() == 'ROLE_ADMIN'}" class="jobs"> <a th:href="@{/dyshajobs/mesDyshaJobs/{userId}/ (userId=${globalUser.worker.userId})}">Les DyshaJobs de cet Utilisateur</a></div>
   <table th:if="${globalUser.user} != null">
     <tr>
       <th>Prénom</th>

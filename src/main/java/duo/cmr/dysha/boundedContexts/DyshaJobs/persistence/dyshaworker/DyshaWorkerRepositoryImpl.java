@@ -20,7 +20,7 @@ public class DyshaWorkerRepositoryImpl implements DyshaWorkerRepository {
     DaoDyshaWorkerRepository daoDyshaWorkerRepository;
     WorkerJobRelationRepositoryImpl workerJobRelationRepository;
     DyshaJobRepositoryImpl dyshaJobRepository;
-    DyshaFileRepositoryImpl dyshaPhotoRepository;
+    DyshaFileRepositoryImpl dyshaFileRepository;
 
     @Override
     public List<DyshaWorker> findAllWorker() {
@@ -58,8 +58,8 @@ public class DyshaWorkerRepositoryImpl implements DyshaWorkerRepository {
     }
 
     private DyshaWorker  toWorker(DyshaWorkerEntity e) {
-        List<DyshaJob> allJobsByWorkerId = dyshaJobRepository.findAllById(workerJobRelationRepository.findAllByWorkerId(e.getUserId()).stream().map(WorkerJobRelation::getJobId).toList());
-        String encodedPhoto = dyshaPhotoRepository.findLastByTableNameAndUserIdAndEntityIdAndFileType("dyshaworker", e.getUserId(), e.getId(), "image");
+        List<DyshaJob> allJobsByWorkerId = dyshaJobRepository.findAllById(workerJobRelationRepository.findAllByWorkerId(e.getId()).stream().map(WorkerJobRelation::getJobId).toList());
+        String encodedPhoto = dyshaFileRepository.findLastByTableNameAndUserIdAndEntityIdAndFileType("dyshaworker", e.getUserId(), e.getId(), "image");
         List<WorkerJobRelation> allWorkerJobRelationsByWorkerId = workerJobRelationRepository.findAllByWorkerId(e.getId());
         return new DyshaWorker(e.getId(), e.getName(), allJobsByWorkerId, allWorkerJobRelationsByWorkerId, e.getDescription(), e.getLocation(), e.getStartedOn(), e.getUserId(), encodedPhoto);
     }

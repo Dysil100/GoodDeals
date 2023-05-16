@@ -25,7 +25,6 @@ public class AvisController {
 
     @PostMapping(AVIS)
     public String avisPost(Model model, @ModelAttribute("formavis") FormAvis form, @ModelAttribute("email") String email) {
-        System.out.println(form);
         form.setEmail(email);
         avisService.save(form.toAvis());
         return "redirect:" + AVIS;

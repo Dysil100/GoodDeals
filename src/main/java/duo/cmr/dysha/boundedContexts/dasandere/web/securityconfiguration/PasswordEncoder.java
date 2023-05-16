@@ -28,8 +28,8 @@ public class PasswordEncoder {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("dyshashop0@gmail.com");
-        mailSender.setPassword("Dysha@0612");
+        mailSender.setUsername("dysha237@gmail.com");
+        mailSender.setPassword("oboaeknjxqtyamoi");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");

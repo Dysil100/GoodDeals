@@ -1,5 +1,6 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces;
 
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.DyshaJobValidations;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
 
 import java.util.List;
@@ -20,4 +21,11 @@ public interface DyshaFileRepository {
     DyshaFile findFieById(Long fileId);
 
     void deleteById(Long fileId);
+
+    DyshaJobValidations getValidationFor(Long userId);
+
+    String findLastByTableNameAndUserIdAndFileType(String tableNme, Long userId, String fileType);
+
+    List<DyshaFile> findAllByEntityId(Long entityId);
+
 }

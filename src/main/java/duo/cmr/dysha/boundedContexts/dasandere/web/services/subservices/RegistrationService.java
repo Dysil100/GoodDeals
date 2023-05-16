@@ -51,7 +51,7 @@ public class RegistrationService {
 
     @Transactional
     public String confirmToken(String token) {
-        Optional<ConfirmationTokenEntity> token0 = appUserService.getToken(token);
+        Optional<ConfirmationTokenEntity> token0 = appUserService.getToken(token.trim());
         if (token0.isEmpty()) {
             return "OOPS! Link expired or was already used"; // same as token not found
         }

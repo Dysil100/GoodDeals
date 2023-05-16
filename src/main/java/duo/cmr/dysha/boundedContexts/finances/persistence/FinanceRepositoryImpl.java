@@ -31,9 +31,7 @@ public class FinanceRepositoryImpl implements FinanceRepository {
 
     @Override
     public void update(Finance finance) {
-        System.out.println("FinanceRepositoryImpl update");
         FinanceEntity financeEntity = toEntity(finance);
-        System.out.println(financeEntity);
         daoFinancesRepository.updateById(finance.getId(), financeEntity.getSumme(), financeEntity.getDescription(), financeEntity.getProjectName());
     }
 

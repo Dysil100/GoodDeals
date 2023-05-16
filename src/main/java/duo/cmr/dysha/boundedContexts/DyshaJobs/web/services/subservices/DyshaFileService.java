@@ -1,5 +1,6 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices;
 
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.DyshaJobValidations;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
 import lombok.AllArgsConstructor;
@@ -21,8 +22,8 @@ public class DyshaFileService {
         return dyshaFileRepository.findAllByUserId(entityId);
     }
 
-    public boolean cVExistByUserId(Long userId) {
-        return !dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("CV_document", userId, "pdf").isBlank();
+    public boolean cVExistByEntityId(Long entityId) {
+        return !dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("CV_document", entityId, "pdf").isBlank();
     }
 
     public DyshaFile findFileById(Long fileId) {
@@ -31,5 +32,13 @@ public class DyshaFileService {
 
     public void deleteById(Long fileId) {
         dyshaFileRepository.deleteById(fileId);
+    }
+
+    public DyshaJobValidations getValidationsFor(Long entityId) {
+        return dyshaFileRepository.getValidationFor(entityId);
+    }
+
+    public List<DyshaFile> findAllByEntityId(Long entityId) {
+        return dyshaFileRepository.findAllByEntityId(entityId);
     }
 }

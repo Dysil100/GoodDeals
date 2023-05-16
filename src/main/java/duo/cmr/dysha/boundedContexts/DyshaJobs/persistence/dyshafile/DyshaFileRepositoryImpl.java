@@ -1,5 +1,6 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshafile;
 
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.DyshaJobValidations;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
 import lombok.AllArgsConstructor;
@@ -47,6 +48,11 @@ public class DyshaFileRepositoryImpl implements DyshaFileRepository {
     }
 
     @Override
+    public List<DyshaFile> findAllByEntityId(Long entityId) {
+        return toDyshaFileList(daoDyshaFileRepository.findAllByEntityId(entityId));
+    }
+
+    @Override
     public DyshaFile findFieById(Long fileId) {
         return toDyshaFile(Objects.requireNonNull(daoDyshaFileRepository.findById(fileId).orElse(null)));
     }
@@ -55,6 +61,26 @@ public class DyshaFileRepositoryImpl implements DyshaFileRepository {
     public void deleteById(Long fileId) {
         daoDyshaFileRepository.deleteById(fileId);
     }
+
+    @Override
+    public String findLastByTableNameAndUserIdAndFileType(String tableName, Long userId, String fileType) {
+        List<DyshaFile> dyshaFiles = findAllByTableNameAndUserIdAndFileType(tableName, userId, fileType);
+        return dyshaFiles.isEmpty() ? "" : Base64.getEncoder().encodeToString(dyshaFiles.get(dyshaFiles.size() - 1).getFile());
+    }
+
+    private List<DyshaFile> findAllByTableNameAndUserIdAndFileType(String tableName, Long userId, String fileType) {
+        return toDyshaFileList(daoDyshaFileRepository.findAllByTableNameAndUserIdAndFileType(tableName, userId, fileType));
+    }
+
+    @Override
+    public DyshaJobValidations getValidationFor(Long entityId) {
+        boolean loadedIdCard = !findLastByTableNameAndEntityIdAndFileType("ID_Card_document", entityId, "image").isEmpty();
+        boolean loadedLastDiplome = !findLastByTableNameAndEntityIdAndFileType("Last_Diplome_document", entityId, "pdf").isEmpty();
+        boolean loadedCurriculumVitae = !findLastByTableNameAndEntityIdAndFileType("CV_document", entityId, "pdf").isEmpty();
+        boolean loadedDocuments = loadedIdCard && loadedLastDiplome && loadedCurriculumVitae;
+        return new DyshaJobValidations(loadedDocuments, loadedDocuments, loadedCurriculumVitae, loadedLastDiplome, loadedIdCard);
+    }
+
 
     private List<DyshaFile> toDyshaFileList(Iterable<DyshaFileEntity> allBys) {
         List<DyshaFile> result = new ArrayList<>();

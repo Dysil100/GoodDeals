@@ -1,6 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.admin;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.globaluser.GlobalAppUser;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaFileService;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaJobService;
@@ -20,6 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -30,6 +34,13 @@ public class DyshaGeneralAdminController {
     WorkerJobRelationService workerJobRelationService;
     DyshaFileService dyshaFileService;
     DyshaJobService dyshaJobService;
+
+    @GetMapping("/dyshajobs/workers")
+    public String employPage(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
+        model.addAttribute("globalUser", user);
+        model.addAttribute("dyshaworkers", dyshaWorkerService.finAll());
+        return "dyshaworkers";
+    }
 
     @GetMapping("/dyshajobs/dyshaPostulats")
     public String dyshaPostulats(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
@@ -49,10 +60,11 @@ public class DyshaGeneralAdminController {
         return "redirect:/dyshajobs/dyshaPostulats";
     }
 
-    @GetMapping("/dyshajobs/mesdocuments/{id}")
-    public String workerDocuments(@PathVariable("id") Long userId, @ModelAttribute("user") AppUser user, Model model) {
-        model.addAttribute("dyshaFiles", dyshaFileService.findAllByUserId(userId));
-        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findByUserId(userId)));
+    @GetMapping("/dyshajobs/mesdocuments/{workerId}")
+    public String workerDocuments(@PathVariable("workerId") Long workerId, @ModelAttribute("user") AppUser user, Model model) {
+        List<DyshaFile> allByUserId = dyshaFileService.findAllByEntityId(workerId);
+        model.addAttribute("dyshaFiles", allByUserId);
+        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findByUserId(workerId)));
         return "addFiles";
     }
 
@@ -64,10 +76,10 @@ public class DyshaGeneralAdminController {
         return "redirect:/dyshajobs/mesdocuments/" + userId;
     }
 
-    @GetMapping("/dyshajobs/dyshaprofil/{userId}")
-    public String showProfilDetails(@PathVariable("userId") Long userId, Authentication authentication, Model model, @ModelAttribute("user") AppUser user) {
-        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByUserId(userId));
-        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findByUserId(userId)));
+    @GetMapping("/dyshajobs/dyshaprofil/{workerId}")
+    public String showProfilDetails(@PathVariable("workerId") Long workerId, Authentication authentication, Model model, @ModelAttribute("user") AppUser user) {
+        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByEntityId(workerId));
+        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findById(workerId)));
         return "dyshaprofil";
     }
 
@@ -91,6 +103,7 @@ public class DyshaGeneralAdminController {
             return "newdyshajob";
         }
         dyshaJob.setUserId(user.getUser().getId());
+        dyshaJob.setPostedDate(LocalDateTime.parse(LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
         dyshaJobService.save(dyshaJob);
         return "redirect:/dyshajobs";
     }

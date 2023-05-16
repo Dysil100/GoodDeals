@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import static duo.cmr.dysha.boundedContexts.routen.Routen.CONFRIMREGISTRATION;
 import static duo.cmr.dysha.boundedContexts.routen.Routen.REGISTRATION;
@@ -29,21 +30,30 @@ public class RegistrationController {
 
     @PostMapping(REGISTRATION)
     public String register(Model model, @ModelAttribute("form") RegistrationRequest request) {
+        if (!Objects.equals(request.getPassword(), request.getConfirmationPassword())){
+            model.addAttribute("error", "Pasword and password confirmation doesn't match");
+            model.addAttribute("registration", true);
+            return "login";
+        }
+
         request.setEmail(request.getEmail().toLowerCase(Locale.ROOT));
         String register = "Notifications: " +  registrationService.register(request);
+
         model.addAttribute("text", register);
-        return "notifications";
+        model.addAttribute("notification", true);
+        return "login";
     }
 
     @GetMapping(CONFRIMREGISTRATION)
     public String confirm(Model model, @RequestParam("token") String token) {
         String notif = "Notifications: " + registrationService.confirmToken(token);
         model.addAttribute("text", notif);
-        return "notifications";
+        model.addAttribute("notification", true);
+        return "login";
     }
 
     @ModelAttribute("formular")
     RegistrationRequest request() {
-        return new RegistrationRequest(null, null, null, null);
+        return new RegistrationRequest(null, null, null, null, null);
     }
 }

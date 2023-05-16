@@ -27,6 +27,13 @@ public class UserArchivRepositoryImpl implements UserArchivRepository {
         return (List<UserArchivEntity>) daoUserArchivRepository.findAll();
     }
 
+    @Override
+    public void updatePasswordByEmail(String password, String email) {
+        UserArchivEntity userArchivEntity = daoUserArchivRepository.findByEmail(email).orElse(null);
+        userArchivEntity.setPassword(password);
+        daoUserArchivRepository.save(userArchivEntity);
+    }
+
     private UserArchivEntity toUserArchivEntity(AppUser user) {
         return new UserArchivEntity(user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword());
     }

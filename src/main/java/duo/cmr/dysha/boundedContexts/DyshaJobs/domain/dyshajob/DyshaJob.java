@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @EqualsAndHashCode
-@ToString
 public class DyshaJob {
 
     private Long id;
@@ -31,9 +30,7 @@ public class DyshaJob {
         this.encodedImage = encodedImage;
     }
 
-    public DyshaJob(){
-
-    }
+    public DyshaJob(){}
 
     public  String tableName(){
         return   "dyshajob";
@@ -41,5 +38,19 @@ public class DyshaJob {
 
     public boolean hasNoImage(){
         return encodedImage.isEmpty();
+    }
+
+    @Override
+    public String toString() {
+        return "DyshaJob{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", postedDate=" + postedDate +
+                ", employeur='" + employeur + '\'' +
+                ", location='" + location + '\'' +
+                ", userId=" + userId +
+                ", encodedImage='" + encodedImage + '\'' +
+                '}';
     }
 }

@@ -30,4 +30,5 @@ public class DyshaWorkerService {
     public boolean existByUserId(Long userId) {
         return dyshaWorkerRepository.existByuserId(userId);
     }
+
 }

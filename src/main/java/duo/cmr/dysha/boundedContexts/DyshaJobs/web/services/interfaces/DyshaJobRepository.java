@@ -9,7 +9,7 @@ public interface DyshaJobRepository {
 
     List<DyshaJob> findAll();
 
-    List<DyshaJob> restLostJobs(String query);
+    List<DyshaJob> restListJobs(String query);
 
     List<DyshaJob> findAllById(List<Long> jobIds);
 

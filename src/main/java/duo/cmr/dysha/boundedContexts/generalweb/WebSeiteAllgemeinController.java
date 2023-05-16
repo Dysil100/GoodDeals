@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -40,8 +41,15 @@ public class WebSeiteAllgemeinController {
     }
 
     @GetMapping("/login")
-    public String login(Model model){
+    public String login(Model model, @ModelAttribute("error") String error){
         model.addAttribute("login", true);
+        return "login";
+    }
+
+    @GetMapping("/login?error")
+    public String loginError(Model model){
+        model.addAttribute("login", true);
+        model.addAttribute("error", true);
         return "login";
     }
 

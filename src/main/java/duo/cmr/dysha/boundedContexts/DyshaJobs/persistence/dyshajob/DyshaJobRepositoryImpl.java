@@ -3,6 +3,7 @@ package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshajob;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaJobRepository;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
+import duo.cmr.dysha.boundedContexts.generalresearch.MyGeneralSearcher;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public class DyshaJobRepositoryImpl implements DyshaJobRepository {
     DaoDyshaJobRepository dyshaJobRepository;
     DyshaFileRepository dyshaFileRepository;
+    MyGeneralSearcher<DyshaJob> generalSearcher ;
     @Override
     public List<DyshaJob> findAllById(List<Long> jobIds) {
         return toDyshaJobList(dyshaJobRepository.findAllById(jobIds));
@@ -35,11 +37,15 @@ public class DyshaJobRepositoryImpl implements DyshaJobRepository {
 
     @Override
     public List<DyshaJob> findJobsByExprr(String query) {
-        return null;
+        return generalSearcher.searchThisExprIn(query, findAll());
     }
     @Override
-    public List<DyshaJob> restLostJobs(String query) {
-        return null;
+    public List<DyshaJob> restListJobs(String query) {
+        return substractResult(findAll(), findJobsByExprr(query));
+    }
+
+    private List<DyshaJob> substractResult(List<DyshaJob> all, List<DyshaJob> jobsByExprr) {
+        return all.stream().filter(e -> !jobsByExprr.contains(e)).toList();
     }
 
     @Override

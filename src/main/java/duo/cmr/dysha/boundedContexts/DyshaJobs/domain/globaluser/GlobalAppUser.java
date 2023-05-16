@@ -6,6 +6,7 @@ import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.workerjobrelation.WorkerJo
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import lombok.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor
@@ -26,6 +27,7 @@ public class GlobalAppUser {
     }
 
     public boolean hasValidationForJob(Long jobId){
-        return worker.getWorkerJobRelations().stream().filter(w -> Objects.equals(w.getJobId(), jobId)).toList().get(0).isValidation();
+        List<WorkerJobRelation> relations = worker.getWorkerJobRelations().stream().filter(w -> Objects.equals(w.getJobId(), jobId)).toList();
+        return !relations.isEmpty() && relations.get(0).isValidation();
     }
 }

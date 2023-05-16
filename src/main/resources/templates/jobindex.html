@@ -10,7 +10,7 @@
 <div class="main-content">
 <header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
 <main th:object="${globalUser}">
-  <section th:if="${jobs}" th:replace="fragments/general.html :: dyshaJobsListe(jobs=${jobs}, class='searchs', tittre=${jobs.size} + ' Resultats pour votre recherche')"></section>
+  <section th:if="${searchJobs && searchJobs != null}" th:replace="fragments/general.html :: dyshaJobsListe(jobs=${searchJobs}, class='searchs', tittre='' + ${searchJobs.size} + ' Resultats pour votre recherche')"></section>
   <section th:if="${jobs}" th:replace="fragments/general.html :: dyshaJobsListe(jobs=${jobs}, class='jobs', tittre='Un appercu de jobs que nous proposons pour l\'instant')"></section>
 
 </main>

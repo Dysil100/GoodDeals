@@ -24,8 +24,8 @@ spring:
     port: 587
     #host: localhost
     #port: 1025
-    username: dyshashop0@gmail.com
-    password: Dysha@0612
+    username: dysha237@gmail.com
+    password: oboaeknjxqtyamoi
     protocol: smtp
     properties:
       mail:
@@ -38,6 +38,7 @@ spring:
           connectiontimeout: 5000
           timeout: 3000
           writetimeout: 5000
+
 
   logging:
     level:

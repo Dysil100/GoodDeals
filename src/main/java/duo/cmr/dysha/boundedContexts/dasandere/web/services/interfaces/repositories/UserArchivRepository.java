@@ -9,4 +9,6 @@ public interface UserArchivRepository {
     void save(AppUser appUser);
 
     List<UserArchivEntity> findAll();
+
+    void updatePasswordByEmail(String password, String email);
 }

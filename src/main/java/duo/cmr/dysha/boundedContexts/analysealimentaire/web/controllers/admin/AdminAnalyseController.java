@@ -29,7 +29,6 @@ public class AdminAnalyseController {
 
     @PostMapping(ADDSTANDARD)
     public String addsandardspost(Model model, @ModelAttribute("formStandard") FormStandard formStandard) {
-        System.out.println(formStandard);
         analyseAlimentaireService.save(formStandard.toStandard());
         return "redirect:" + ADMINROUTE + ADDSTANDARD;
     }

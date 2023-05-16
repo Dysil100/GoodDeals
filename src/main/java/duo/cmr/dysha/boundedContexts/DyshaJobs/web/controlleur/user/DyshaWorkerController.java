@@ -26,14 +26,6 @@ public class DyshaWorkerController {
     private DyshaWorkerService dyshaWorkerService;
     private AppUserService appUserService;
 
-    @AdminOnly
-    @GetMapping("/dyshajobs/workers")
-    public String employPage(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
-        model.addAttribute("globalUser", user);
-        model.addAttribute("dyshaworkers", dyshaWorkerService.finAll());
-        return "dyshaworkers";
-    }
-
     @GetMapping("/dyshajobs/newdyshaworker")
     public String showWorkerForm(Model model, @ModelAttribute("globalUser") GlobalAppUser globalAppUser, @ModelAttribute("user") AppUser user) {
         model.addAttribute("globalUser", globalAppUser);
@@ -48,6 +40,7 @@ public class DyshaWorkerController {
             return "newdyshajobworker";
         }
         worker.setUserId(user.getId());
+        worker.setName(user.getFullName());
         worker.setStartedOn(LocalDateTime.now());
         dyshaWorkerService.save(worker);
         return "redirect:/dyshajobs";

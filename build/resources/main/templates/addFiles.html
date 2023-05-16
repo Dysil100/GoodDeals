@@ -10,7 +10,7 @@
 <header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
 
 <div th:if="${dyshaFile}">
-    <form th:if="${((dyshaFile.tableName == 'dyshauser' || dyshaFile.tableName == 'dyshauser') && globalUser.user.role.name() == 'ROLE_USER') || globalUser.user.role.name() == 'ROLE_ADMIN' || globalUser.user.role.name() == 'ROLE_LEADER'}" th:object="${dyshaFile}" th:action="@{/dyshajobs/files}" method="post" enctype="multipart/form-data">
+    <form th:if="${((dyshaFile.tableName == 'dyshauser' || dyshaFile.tableName == 'ID_Card_document' || dyshaFile.tableName == 'CV_document' || dyshaFile.tableName == 'Last_Diplome_document') && globalUser.user.role.name() == 'ROLE_USER') || globalUser.user.role.name() == 'ROLE_ADMIN' || globalUser.user.role.name() == 'ROLE_LEADER'}" th:object="${dyshaFile}" th:action="@{/dyshajobs/files}" method="post" enctype="multipart/form-data">
         <!-- ID utilisateur -->
         <label hidden for="userId"></label>
         <input  hidden th:value="${dyshaFile.userId}" type="number" id="userId" name="userId"/>

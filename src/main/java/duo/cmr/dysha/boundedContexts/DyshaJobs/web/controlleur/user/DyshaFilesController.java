@@ -31,7 +31,7 @@ public class DyshaFilesController {
 
     @GetMapping("/dyshajobs/mesdocuments")
     public String mesDocuments(@ModelAttribute("globalUser") GlobalAppUser user, Model model) {
-        model.addAttribute("dyshaFiles", dyshaFileService.findAllByUserId(user.getUser().getId()));
+        model.addAttribute("dyshaFiles", dyshaFileService.findAllByEntityId(user.getWorker().getId()));
         model.addAttribute("globalUser", user);
         return "addFiles";
     }

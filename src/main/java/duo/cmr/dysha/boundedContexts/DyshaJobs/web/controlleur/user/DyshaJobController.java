@@ -1,7 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.user;
 
-import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.workerjobrelation.WorkerJobRelation;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.workerjobrelation.WorkerJobRelation;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.globaluser.GlobalAppUser;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaFileService;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaJobService;
@@ -12,10 +12,10 @@ import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserS
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -29,9 +29,19 @@ public class DyshaJobController {
 
     @GetMapping("/dyshajobs")
     public String viewDyshaJobs(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
-        //model.addAttribute("searchJobs", dyshaJobService.findAllJobsByExorr(keyword));
+        model.addAttribute("searchJobs", List.of());
         model.addAttribute("globalUser", user);;
         model.addAttribute("jobs", dyshaJobService.findAll());
+        return "jobindex";
+    }
+
+    @GetMapping("dyshajobs/search")
+    public String searchJobs(@RequestParam("exprr") String exprr, Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
+        List<DyshaJob> allJobsByExorr = dyshaJobService.findAllJobsByExorr(exprr);
+        List<DyshaJob> attributeValue = dyshaJobService.restListJobs(exprr);
+        model.addAttribute("searchJobs", allJobsByExorr);
+        model.addAttribute("globalUser", user);
+        model.addAttribute("jobs", attributeValue);
         return "jobindex";
     }
 
@@ -44,24 +54,16 @@ public class DyshaJobController {
     @GetMapping("/dyshajobs/jobdetails/{id}")
     public String getJobDetails(@PathVariable Long id, Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
         model.addAttribute("globalUser", user);
-        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByUserId(user.getUser().getId()));
+        model.addAttribute("validations" , dyshaFileService.getValidationsFor(user.getWorker().getId()));
+        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByEntityId(user.getWorker().getId()));
         model.addAttribute("job", dyshaJobService.getJobById(id));
         return "dyshajobdetails";
     }
 
     @GetMapping("/dyshajobs/postuler/{jobId}")
     public String postuler(@ModelAttribute("jobId") Long jobId, @ModelAttribute("globalUser") GlobalAppUser user) {
-        workerJobRelationService.save(new WorkerJobRelation(jobId, user.getUser().getId(), false, null));
+        workerJobRelationService.save(new WorkerJobRelation(jobId, user.getWorker().getId(), false, null));
         return "redirect:/dyshajobs";
-    }
-
-
-    @GetMapping("dyshajobs/search")
-    public String searchJobs(@RequestParam("keyword") String keyword, Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
-        //model.addAttribute("searchJobs", dyshaJobService.findAllJobsByExorr(keyword));
-        model.addAttribute("globalUser", user);
-        model.addAttribute("jobs", dyshaJobService.restLostJobs(keyword));
-        return "jobindex";
     }
 
     @ModelAttribute("role")

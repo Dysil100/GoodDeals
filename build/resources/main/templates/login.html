@@ -5,14 +5,15 @@
 <body>
 <div class="container" th:if="${login}">
     <h2>Login To Dysha Job</h2>
+    <div class="error-message" th:if="${error}" id="error-message">Password or Email adresse doesn't match</div>
     <form method="post" th:action="@{/login}" >
         <div class="input-group">
             <input type="email" id="username" name="username" required>
-            <label for="username">Username</label>
+            <label for="username">E-Mail</label>
         </div>
         <div class="input-group">
             <input type="password" id="password" name="password" required>
-            <label for="password">Password</label>
+            <label for="password">Mot de passe</label>
         </div>
         <button type="submit">Login</button>
     </form>
@@ -27,7 +28,7 @@
     <h2>Email du compte a recuperer</h2>
     <form method="post"  th:action="@{/maileingabe}">
         <div class="input-group">
-            <input type="email" id="email" required>
+            <input type="email" id="email" name="email" required>
             <label for="email">Email</label>
         </div>
         <button type="submit">Submit</button>
@@ -41,10 +42,11 @@
 
 <div class="container" th:if="${registration}">
     <form th:object="${form}" th:action="@{/registration}" method="post" style="max-width: 400px; margin: 0 auto;">
+        <div class="error-message" th:if="${error}" th:text="${error}" id="error-message"></div>
         <h2>Registration</h2>
         <div class="input-group">
             <input th:field="*{firstName}" type="text" id="firstName" name="firstName" required>
-            <label for="firstName">Prènom</label>
+            <label for="firstName">Prenom</label>
         </div>
         <div class="input-group">
             <input th:field="*{lastName}" type="text" id="lastName"  name="lastName" required>
@@ -58,6 +60,10 @@
             <input th:field="*{password}" type="password" id="password"  name="password" required>
             <label for="password">Mot de Passe</label>
         </div>
+        <div class="input-group">
+            <input th:field="*{confirmationPassword}" type="password" id="confirmationPassword"  name="confirmationPassword" required>
+            <label for="confirmationPassword">Mot de Passe</label>
+        </div>
         <button type="submit">Submit</button>
     </form>
     <div class="forgot-password">
@@ -65,6 +71,31 @@
         <span>or</span>
         <a href="#" th:href="@{/login}">Login</a>
     </div>
+</div>
+
+<div class="container" th:if="${passworeingabe}">
+    <form method="post" th:action="@{/passwordeingabe}"  th:object="${form}">
+        <h2>Entrez votre nouveau mot de passe</h2>
+        <div class="input-group">
+            <input th:value="${form.email}" type="email" id="email" name="email" required hidden>
+            <label for="email">Mot de passe</label>
+        </div>
+        <div class="input-group">
+            <input th:field="${form.password}" type="text" id="password" name="password" required>
+            <label for="password">Mot de passe</label>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</div>
+<div class="container" th:if="${notification}">
+    <h1><div class="input-group">
+        <input type="text" id="empty" name="empty" hidden>
+        <label th:if="${text} != null" th:text="${text}" for="empty">Please Check your Mails</label>
+    </div></h1>
+    <br>
+    <br>
+    <br>
+    <button><a th:href="@{/}">Home</a></button>
 </div>
 <script src="js/dyshalogin.js"></script>
 </body>

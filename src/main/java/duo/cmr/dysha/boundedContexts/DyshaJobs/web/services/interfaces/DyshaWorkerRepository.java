@@ -14,4 +14,5 @@ public interface DyshaWorkerRepository {
     DyshaWorker findByUserId(Long userId);
 
     boolean existByuserId(Long userId);
+
 }

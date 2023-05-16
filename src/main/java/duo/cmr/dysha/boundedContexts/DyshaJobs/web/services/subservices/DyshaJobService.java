@@ -13,12 +13,12 @@ public class DyshaJobService {
 
     DyshaJobRepository dyshaJobRepository;
 
-    public List<DyshaJob> findAllJobsByExorr(String query) {
+    public List<DyshaJob> findAllJobsByExorr(String query)  {
         return dyshaJobRepository.findJobsByExprr(query);
     }
 
-    public List<DyshaJob> restLostJobs(String query) {
-        return dyshaJobRepository.restLostJobs(query);
+    public List<DyshaJob> restListJobs(String query) {
+        return dyshaJobRepository.restListJobs(query);
     }
 
     public List<DyshaJob> findAll() {

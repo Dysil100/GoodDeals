@@ -6,7 +6,6 @@ import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaWor
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +24,7 @@ public class DyshaProfilController {
     @GetMapping("/dyshajobs/dyshaprofil")
     public String showProfil(Model model, @ModelAttribute("globalUser") GlobalAppUser user) {
         model.addAttribute("globalUser", user);
-        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByUserId(user.getUser().getId()));
+        model.addAttribute("userHasCuriculumVitae", dyshaFileService.cVExistByEntityId(user.getWorker().getId()));
         return "dyshaprofil";
     }
 
