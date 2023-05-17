@@ -4,6 +4,8 @@ willagropastoral:
   admins: silatsamdylan@gmail.com
   leaders: willagropastoral@gmail.com
 
+# Proxy pour les téléchargements de fichiers externes
+
 spring:
   profiles:
     active: google
@@ -17,6 +19,12 @@ spring:
     url: jdbc:postgresql://localhost:15000/willagropastoral
     user: willagropastoral
     password: iamgroot
+
+  resources:
+    chain:
+      proxy:
+        host: willagropastoral
+        port: 80
 
   mail:
     default-encoding: UTF-8

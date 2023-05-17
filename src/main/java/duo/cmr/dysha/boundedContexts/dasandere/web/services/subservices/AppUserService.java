@@ -51,7 +51,7 @@ public class AppUserService implements UserDetailsService {
         String confirm_your_email_title = "Confirm your Email";
         if (userExists) {
             ConfirmationTokenEntity tokenEntity = confirmationTokenService.findByUsername(appUser.getUsername())
-                    .orElseThrow(() -> new IllegalStateException("Token for email" + appUser.getUsername()
+                    .orElseThrow(() -> new IllegalStateException("Token for email " + appUser.getUsername()
                                                                  + " does not exist"));
             if (!byEmail.get().getEnabled()) {
                 String bodyMsg = "Your actually have an account by us, Please click on the below link to activate it:";

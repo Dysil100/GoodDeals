@@ -1,4 +1,4 @@
-package duo.cmr.dysha.boundedContexts.DyshaJobs.web;
+package duo.cmr.dysha.boundedContexts.DyshaJobs.web.configuration;
 
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
