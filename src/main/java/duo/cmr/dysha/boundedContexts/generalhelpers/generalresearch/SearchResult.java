@@ -1,4 +1,4 @@
-package duo.cmr.dysha.boundedContexts.generalresearch;
+package duo.cmr.dysha.boundedContexts.generalhelpers.generalresearch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

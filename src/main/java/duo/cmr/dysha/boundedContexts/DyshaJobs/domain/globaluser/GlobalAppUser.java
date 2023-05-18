@@ -30,4 +30,8 @@ public class GlobalAppUser {
         List<WorkerJobRelation> relations = worker.getWorkerJobRelations().stream().filter(w -> Objects.equals(w.getJobId(), jobId)).toList();
         return !relations.isEmpty() && relations.get(0).isValidation();
     }
+
+    public boolean isAdmin(){
+        return  user.getRole().name().equals("ROLE_ADMIN");
+    }
 }

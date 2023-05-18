@@ -8,9 +8,9 @@ h1 {
     text-align: center;
 }
 
-form {
+.new-workerorm {
     max-width: 500px;
-    margin: 0 auto;
+    margin: 100px auto;
 }
 
 .form-group {

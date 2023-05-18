@@ -1,6 +1,7 @@
 package duo.cmr.dysha.boundedContexts.DyshaJobs.web.controlleur.user;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaworker.DyshaWorker;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.globaluser.GlobalAppUser;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaWorkerService;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaFileService;
@@ -16,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Part;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.Principal;
-
-import static duo.cmr.dysha.boundedContexts.DyshaJobs.domain.filesType.FileTypeDetector.determineFileType;
 
 @AllArgsConstructor
 @Controller
@@ -31,47 +29,41 @@ public class DyshaFilesController {
 
     @GetMapping("/dyshajobs/mesdocuments")
     public String mesDocuments(@ModelAttribute("globalUser") GlobalAppUser user, Model model) {
-        model.addAttribute("dyshaFiles", dyshaFileService.findAllByEntityId(user.getWorker().getId()));
+        model.addAttribute("dyshaFiles", dyshaFileService.findAllByUserId(user.getUser().getId()));
         model.addAttribute("globalUser", user);
         return "addFiles";
     }
 
-    @GetMapping("/dyshajobs/files/{tablename}/{entityid}/{filesType}")
-    public String addFiles(@PathVariable String tablename, @PathVariable Long entityid, @PathVariable String filesType, @ModelAttribute("user") AppUser user, Model model) {
-        model.addAttribute("dyshaFile", new DyshaFile(user.getId(), entityid, tablename, filesType, null));
-        model.addAttribute("globalUser", new GlobalAppUser(user, dyshaWorkerService.findByUserId(user.getId())));
+    @GetMapping("/dyshajobs/files/{tablename}")
+    public String addFilesUser(@PathVariable String tablename, @ModelAttribute("user") AppUser user, Model model) {
+        DyshaWorker workerByUserId = dyshaWorkerService.findByUserId(user.getId());
+        model.addAttribute("dyshaFile", new DyshaFile(user.getId(), workerByUserId.getId(), tablename, dyshaFileService.defineFiletypeByTybleName(tablename), null));
+        model.addAttribute("globalUser", new GlobalAppUser(user, workerByUserId));
         return "addFiles";
     }
 
     @PostMapping("/dyshajobs/files")
     public String addFiles(@RequestParam("file") Part file,
-                           @ModelAttribute("dyshaFile") @Valid DyshaFile dyshaFile, BindingResult result, Model model) throws IOException {
+                           @ModelAttribute("dyshaFile") @Valid DyshaFile dyshaFile, BindingResult result, Model model, @ModelAttribute("globalUser") GlobalAppUser user) throws IOException {
+       //verifier la taille du fichier
+        if (file.getSize() > 5000000) { // le fichier doit peser environ 0,5 Megga Octet
+            result.rejectValue("fileType", "file.type.invalid", "Le fichier doit peser environ 0.5 Megga Octets. <br> Veuillez compresser votre image.");
+            model.addAttribute("errors", result.getAllErrors());
+            return "addFiles";
+        }
         // Lire le contenu de la photo dans un tableau d'octets
-        byte[] filesDataBytes = new byte[(int) file.getSize()];
-        try (InputStream is = file.getInputStream()) {
-            int read = is.read(filesDataBytes);
-            while(read != -1){
-                read = is.read(filesDataBytes);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        byte[] filesDataBytes = dyshaFileService.getDataBytes(file);
+        String definedFiletype = dyshaFileService.defineFiletypeByTybleName(dyshaFile.getTableName());
+        String determineFileType = dyshaFileService.determineFileType(filesDataBytes);
         // Vérifier si le fichier uploadé est un fichier approprié
-        String fileType = determineFileType(filesDataBytes);
-        if (!dyshaFile.getFileType().equalsIgnoreCase(fileType)) {
-            result.rejectValue("fileType", "file.type.invalid", "Le fichier doit être de type " + dyshaFile.getFileType());
+        if (!definedFiletype.equalsIgnoreCase(determineFileType)) {
+            result.rejectValue("fileType", "file.type.invalid", "Le fichier doit être de type " + definedFiletype);
             model.addAttribute("errors", result.getAllErrors());
             return "addFiles";
         }
-
-        if (filesDataBytes.length > 2000000) {
-            result.rejectValue("fileType", "file.type.invalid", "Le fichier doit peser environ 1 Megga Octets");
-            model.addAttribute("errors", result.getAllErrors());
-            return "addFiles";
-        }
-
         // Créer un fichier Photo et Enregistrer la photo
-        dyshaFileService.save(new DyshaFile(dyshaFile.getUserId(), dyshaFile.getEntityId(), dyshaFile.getTableName(), fileType, filesDataBytes));
+        Long entityId = dyshaFile.getEntityId();
+        dyshaFileService.save(new DyshaFile(dyshaFile.getUserId(), entityId == null ? user.getUser().getId(): entityId, dyshaFile.getTableName(), determineFileType, filesDataBytes));
         return "redirect:/dyshajobs";
     }
 

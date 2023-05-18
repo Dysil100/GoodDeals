@@ -7,6 +7,7 @@ import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices.DyshaWor
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.persistence.annotations.AdminOnly;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
+import duo.cmr.dysha.boundedContexts.generalhelpers.matchers.MyMatchValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,6 +36,11 @@ public class DyshaWorkerController {
 
     @PostMapping("/dyshajobs/newdyshaworker")
     public String createWorker(Model model, @ModelAttribute("dyshaworker") @Valid DyshaWorker worker, BindingResult result, @ModelAttribute("user") AppUser user) {
+        if (!dyshaWorkerService.validates(new WorkerDescription(worker.getDescription(), worker.getLocalisation()))) {
+            model.addAttribute("dyshaworker", worker);
+            result.rejectValue("name", "dyshaworker.type.invalid", "Vous avez entré des caractere non authorizé! I don't manage some special caratere. ");
+        }
+
         if (result.hasErrors()) {
             model.addAttribute("dyshaworker", worker);
             return "newdyshajobworker";

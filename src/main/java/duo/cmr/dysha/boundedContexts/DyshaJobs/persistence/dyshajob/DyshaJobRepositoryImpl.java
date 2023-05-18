@@ -3,7 +3,7 @@ package duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshajob;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshajob.DyshaJob;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaJobRepository;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
-import duo.cmr.dysha.boundedContexts.generalresearch.MyGeneralSearcher;
+import duo.cmr.dysha.boundedContexts.generalhelpers.generalresearch.MyGeneralSearcher;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -60,7 +60,7 @@ public class DyshaJobRepositoryImpl implements DyshaJobRepository {
     }
 
     private DyshaJob toDyshaJob(DyshaJobEntity e) {
-        return new DyshaJob(e.getId(), e.getTitle(), e.getDescription(), e.getPostedDate(), e.getEmployeur(), e.getLocation(), e.getUserId(), dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("dyshajob", e.getId(), "image") );
+        return new DyshaJob(e.getId(), e.getTitle(), e.getDescription(), e.getPostedDate(), e.getEmployeur(), e.getLocation(), e.getUserId(), dyshaFileRepository.findLastByTableNameAndEntityIdAndFileType("Job_photo_image", e.getId(), "image") );
     }
 
 }

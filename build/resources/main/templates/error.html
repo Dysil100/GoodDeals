@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dysha... OOps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Animation */
+    @keyframes errorAnimation {
+      0% { transform: translateX(-50%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Styles */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+    }
+
+    .error-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: errorAnimation 0.5s ease-in-out;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #ff4d4d;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    p {
+      color: #666;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+
+    .home-button {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<div class="error-container">
+  <h1>Oops, une erreur s'est produite !</h1>
+  <p th:if="${errorResponse}" th:text="${errorResponse.getMessage()}">L'erreur en question.</p>
+  <p>Nous vous conseillons de ...</p>
+  <a th:href="@{/dyshajobs}" class="home-button">...retourner à l'accueil</a>
+</div>
+</body>
+</html>

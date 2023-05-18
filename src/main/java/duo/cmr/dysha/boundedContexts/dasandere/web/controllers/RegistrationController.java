@@ -30,6 +30,11 @@ public class RegistrationController {
 
     @PostMapping(REGISTRATION)
     public String register(Model model, @ModelAttribute("form") RegistrationRequest request) {
+        if (!registrationService.validateForm(request)) {
+            model.addAttribute("error", "Seules les Lettre, les chiffres et quelques caratere speciaux sont Authorisé");
+            model.addAttribute("registration", true);
+            return "login";
+        }
         if (!Objects.equals(request.getPassword(), request.getConfirmationPassword())){
             model.addAttribute("error", "Pasword and password confirmation doesn't match");
             model.addAttribute("registration", true);

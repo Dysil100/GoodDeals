@@ -2,16 +2,18 @@ package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.DyshaJobValidations;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaphoto.DyshaFile;
+import duo.cmr.dysha.boundedContexts.DyshaJobs.persistence.dyshafile.FileTypeService;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaFileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Part;
 import java.util.List;
 
 @AllArgsConstructor
 @Service
 public class DyshaFileService {
-
+    private FileTypeService fileTypeService;
     private DyshaFileRepository dyshaFileRepository;
 
     public void save(DyshaFile dyshaFile) {
@@ -40,5 +42,17 @@ public class DyshaFileService {
 
     public List<DyshaFile> findAllByEntityId(Long entityId) {
         return dyshaFileRepository.findAllByEntityId(entityId);
+    }
+
+    public String defineFiletypeByTybleName(String tablename) {
+        return fileTypeService.defineFiletypeByTybleName(tablename);
+    }
+
+    public byte[] getDataBytes(Part file) {
+        return fileTypeService.getDataBytes(file);
+    }
+
+    public String determineFileType(byte[] filesDataBytes) {
+        return fileTypeService.determineFileType(filesDataBytes);
     }
 }

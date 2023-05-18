@@ -2,6 +2,7 @@ package duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.subservices;
 
 import duo.cmr.dysha.boundedContexts.DyshaJobs.domain.dyshaworker.DyshaWorker;
 import duo.cmr.dysha.boundedContexts.DyshaJobs.web.services.interfaces.DyshaWorkerRepository;
+import duo.cmr.dysha.boundedContexts.generalhelpers.matchers.MyMatchValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class DyshaWorkerService {
+    private MyMatchValidator<DyshaWorker> matchValidator;
     DyshaWorkerRepository dyshaWorkerRepository;
     public List<DyshaWorker> finAll() {
         return dyshaWorkerRepository.findAllWorker();
@@ -31,4 +33,7 @@ public class DyshaWorkerService {
         return dyshaWorkerRepository.existByuserId(userId);
     }
 
+    public boolean validates(DyshaWorker worker) {
+        return matchValidator.matches(worker);
+    }
 }

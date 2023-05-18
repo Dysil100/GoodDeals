@@ -5,6 +5,8 @@ import duo.cmr.dysha.boundedContexts.dasandere.domain.model.RegistrationRequest;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUserRole;
 import duo.cmr.dysha.boundedContexts.dasandere.persistence.database.token.ConfirmationTokenEntity;
+import duo.cmr.dysha.boundedContexts.generalhelpers.generalresearch.MyGeneralSearcher;
+import duo.cmr.dysha.boundedContexts.generalhelpers.matchers.MyMatchValidator;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,8 +30,9 @@ public class RegistrationService {
     @Value("${willagropastoral.leaders}")
     private final List<String> leaders;
 
-    private final AppUserService appUserService;
-    private final CustomEmailValidator customEmailValidator;
+    private  AppUserService appUserService;
+    private  CustomEmailValidator customEmailValidator;
+    private  MyMatchValidator<RegistrationRequest> matchValidator;
 
     public String register(RegistrationRequest request) {
             if (customEmailValidator.test(request.getEmail())) {
@@ -78,5 +81,9 @@ public class RegistrationService {
 
     public void updatePassword(String email, String password) {
         appUserService.updatePassword(email, password);
+    }
+
+    public boolean validateForm(RegistrationRequest request) {
+        return matchValidator.matches(request);
     }
 }

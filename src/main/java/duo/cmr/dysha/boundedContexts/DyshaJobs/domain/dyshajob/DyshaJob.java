@@ -33,7 +33,7 @@ public class DyshaJob {
     public DyshaJob(){}
 
     public  String tableName(){
-        return   "dyshajob";
+        return   "Job_photo_image";
     }
 
     public boolean hasNoImage(){
