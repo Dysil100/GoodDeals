@@ -34,7 +34,7 @@ public class WebSeiteAllgemeinController {
         AppUser user = serviceSupreme.authenticateUser(username, password);
         if (user != null) {
             session.setAttribute("user", user);
-            return "redirect:/dyshajobs/jobindex";
+            return "redirect:/productliste";
         } else {
             return "redirect:/login?error";
         }

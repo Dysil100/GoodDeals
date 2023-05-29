@@ -6,10 +6,9 @@
     <title>Good Deals</title>
 </head>
 <body>
+<!-- liste des produits sous forme de cartes -->
+<header th:replace="fragments/general.html :: goodDealsHeader"></header>
 <div class="container">
-    <!-- barre de recherche -->
-    <header th:replace="fragments/general.html :: goodDealsHeader"></header>
-    <!-- liste des produits sous forme de cartes -->
 
     <div th:each="product : ${products}"
          th:if="${product.active}">

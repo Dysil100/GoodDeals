@@ -30,13 +30,7 @@ public class ProductEntity {
     private String city;
     private String quartier;
     private String image;
-
-    @CreationTimestamp
-    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     public ProductEntity(String userEmail, String title, String description, Double price, Boolean active, boolean vente, String city,

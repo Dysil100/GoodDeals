@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" th:href="@{/css/jobindex.css}" type="text/css" href="../static/css/jobindex.css"/>
-    <link rel="stylesheet" th:href="@{/css/addpfiles.css}" type="text/css" href="../static/css/addpfiles.css"/>
+    <link rel="stylesheet" th:href="@{/css/addFiles.css}" type="text/css" href="../static/css/addFiles.css"/>
     <script>
         function checkFileSize() {
             var fileInput = document.getElementById('file');
@@ -25,7 +25,7 @@
 <header th:replace="fragments/general.html :: dyshaJobsHeader"></header>
 
 <div th:if="${dyshaFile}">
-    <form onsubmit="return checkFileSize()" th:if="${((dyshaFile.tableName == 'Profil_photo_image' || dyshaFile.tableName == 'ID_Card_document' || dyshaFile.tableName == 'CV_document' || dyshaFile.tableName == 'Last_Diplome_document') && globalUser.user.role.name() == 'ROLE_USER') || globalUser.isAdmin() || globalUser.user.role.name() == 'ROLE_LEADER'}" th:object="${dyshaFile}" th:action="@{/dyshajobs/files}" method="post" enctype="multipart/form-data">
+    <form onsubmit="return checkFileSize()" th:if="${((dyshaFile.tableName == 'Product_image') && globalUser.user.role.name() == 'ROLE_USER') || globalUser.isAdmin() || globalUser.user.role.name() == 'ROLE_LEADER'}" th:object="${dyshaFile}" th:action="@{/gooddeals/files}" method="post" enctype="multipart/form-data">
         <!-- ID utilisateur -->
         <label hidden for="userId"></label>
         <input  hidden th:value="${dyshaFile.userId}" type="number" id="userId" name="userId"/>
@@ -47,7 +47,7 @@
         <div id="error-message" class="alert alert-danger error-message" style="display: none;">Le fichier sélectionné dépasse la taille maximale autorisée. Veuillez compresser votre image</div>
         <!-- Choisir la photo -->
         <label for="file">Chosse the File to upload</label>
-        <input type="file" id="file" name="file"/>
+        <input type="file" id="file" name="file" accept=".jpg, .jpeg, .png, .gif"/>
 
         <!-- Bouton Soumettre -->
         <input type="submit" value="Submit"/>
@@ -70,10 +70,10 @@
             <td th:text="${file.tableName}"> <span th:if="${globalUser.isAdmin()}" th:text="${file.entityId}"></span></td>
             <td th:text="${file.fileType}"></td>
             <td class="jobs" >
-                <a th:href="@{/dyshajobs/download/file/{fileId}(fileId=${file.id})}" th:text="${file.file != null ? 'Télécharger' : 'Aucun fichier'}"></a>
+                <a th:href="@{/gooddeals/download/file/{fileId}(fileId=${file.id})}" th:text="${file.file != null ? 'Télécharger' : 'Aucun fichier'}"></a>
             </td>
             <td class="delete-file" >
-                <form th:if="${globalUser.isAdmin()}" th:action="@{/dyshajobs/delete/file}" method="post">
+                <form th:if="${globalUser.isAdmin()}" th:action="@{/gooddeals/delete/file}" method="post">
                     <input type="hidden" name="fileId" th:value="${file.id}" />
                     <button type="submit" th:text="${file.file != null ? 'Suprimer ce fichier' : 'Aucun fichier'}">Suprimer le fichier</button>
                 </form>

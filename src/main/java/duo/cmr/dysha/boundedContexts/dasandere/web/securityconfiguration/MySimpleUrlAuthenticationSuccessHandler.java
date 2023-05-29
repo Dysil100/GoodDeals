@@ -41,7 +41,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
 
     private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
-        String targetUrl = determineDyshaTargetUrl(authentication);
+        String targetUrl = determineGoodDealsTargetUrl(authentication);
 
         if (response.isCommitted()) {
             logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
@@ -65,18 +65,7 @@ public class MySimpleUrlAuthenticationSuccessHandler implements AuthenticationSu
         throw new IllegalStateException();
     }
 
-    private String determineDyshaTargetUrl(Authentication authentication) {
-        Map<String, String> roleTargetUrlMap = new HashMap<>(Map.of("ROLE_ADMIN", "/adminindex","ROLE_USER",
-                "/dyshajobs","ROLE_LEADER", "/dyshajobs")); // Better save the more valuable Authorities
-        // so that the highe authority for a user may be found first
-
-        final Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        for (final GrantedAuthority grantedAuthority : authorities) {
-            String authorityName = grantedAuthority.getAuthority();
-            if (roleTargetUrlMap.containsKey(authorityName)) {
-                return roleTargetUrlMap.get(authorityName);
-            }
-        }
-        throw new IllegalStateException();
+    private String determineGoodDealsTargetUrl(Authentication authentication) {
+        return "/productliste";
     }
 }

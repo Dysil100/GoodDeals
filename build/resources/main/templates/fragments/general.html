@@ -1,20 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:animation="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Agropastoral Cameroun">
-    <meta name="keywords"
-          content="Agropastoral, cameroun, investissement, international, pondeuse, elevages, poules pondeuse, œufs, œux,
-           poules, poules de chairs, alveole, livraison d'œux, volaille porcherie, porcs, porcelet, truie, verra, gestantation, miel, apiculture, ">
-    <meta name="description" content="oportunité">
-    <meta name="description" content="Elevage de pondeuse, poules de chairs et apiculture">
-    <meta name="description" content="culture de banane plantains">
-    <meta name="description" content="Investissement en agricultur">
-    <meta name="description" content="Agropastoral International">
-    <meta name="author" content="Foka Wilfired, EtUneAutrePersonne">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Will-Agropastoral</title>
+    <title>Good Deals</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
@@ -27,19 +14,29 @@
     <link rel="icon" type="image/png" href="/favicon.png"/>
     <link rel="icon" type="image/png" href="https://example.com/favicon.png"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="../static/css/styles.css" />
     <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="../static/css/productliste.css"/>
+    <link rel="stylesheet" th:href="@{/css/discussions.css}" type="text/css" href="../static/css/discussions.css"/>
+    <link rel="stylesheet" th:href="@{/css/gooddealsprofil.css}" type="text/css" href="../static/css/gooddealsprofil.css"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}" type="text/css" href="../static/css/login.css"/>
+    <link rel="stylesheet" th:href="@{/css/newproduct.css}" type="text/css" href="../static/css/newproduct.css"/>
+    <link rel="stylesheet" th:href="@{/css/addFiles.css}" type="text/css" href="../static/css/addFiles.css"/>
+    <link rel="stylesheet" th:href="@{/css/productdetails.css}" type="text/css" href="../static/css/productdetails.css"/>
+
+
+
+
 
 </head>
 <body>
 
 <head th:fragment="head(title)">
-        <meta charset="UTF-8">
-        <title th:text="*{title}">Willagropastoral</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
+    <meta charset="UTF-8">
+    <title th:text="*{title}">Good Deals</title>
+    <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="../static/css/chatpage.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="/static/css/productliste.css"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
 </head>
 
 <!--good Deals header-->
@@ -70,7 +67,7 @@
         </div>
         <div class="row mb-4">
             <div class="col">
-                <a th:href="@{/goodeals/profil}" class="btn btn-primary">Moi</a>
+                <a th:href="@{/gooddeals/profil}" class="btn btn-primary">Moi</a>
             </div>
         </div>
         <div class="row mb-4">
@@ -132,116 +129,6 @@
         </div>
     </section>
 </div>
-<br>
-
-<div th:fragment="dyshaJobsFooter">
-    <footer class="footer">
-
-       <!-- <div class="footer-col">
-            <h4>About</h4>
-            <ul>
-                <li><a href="#">About us</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h4>Services</h4>
-            <ul>
-                <li><a href="#">Advertising </a></li>
-                <li><a href="#">Job listing </a></li>
-                <li><a href="#">Career counselling</a></li>
-                <li><a href="#">Recruitment</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-col">
-            <h4>Legal</h4>
-            <ul>
-                <li><a href="#">Terms of use</a></li>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Accessibility</a></li>
-            </ul>
-        </div>
-        -->
-        <p>&copy; 2023 - Dysha-Jobs Site de petites annonces de jobs</p>
-    </footer>
-</div>
-
-
-//General index
-<header th:fragment="indexheader" id="myTopnav" class="navbar-expand-md">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand  badge-info fa" href="javascript:void(0);" onclick="myFunction()"> <span class="fa-bars">Willagropastoral</span></a>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo0">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/}"> <span class="fa fa-home">Aceuil</span> </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/login}">Connection</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center " th:href="@{analyse}">Services</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center " th:href="@{/productliste}">GoodDeals</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center " th:href="@{/dyshajobs}">Dysha-Jobs</a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/contacts}">Contacts</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/avis}">Avis</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bage badge-info text-center" th:href="@{/telecharger}">Télécharger</a>
-                </li>
-                <li class="nav-item">
-                    <form method="post" th:action="@{/logout}">
-                        <input type="hidden" name="_csrf" value="<csrf_token_value>"/>
-                        <button type="submit" class="nav-link badge badge-info text-center">Déconnexion</button>
-                    </form>                </li>
-                <span th:if="${#request.userPrincipal != null}">
-                    <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_LEADER' or ${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link bage badge-info text-center" th:href="@{/leaderindex/avisliste}">Liste d'avis</a>
-                    </li>
-                    <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_LEADER' or ${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link bage badge-info text-center" th:href="@{/leaderindex/projects}">Projects
-                            </a>
-                    <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link badge-info text-center"
-                           th:href="@{/adminindex/addsandards}">Add new Standards</a>
-                    </li>
-                    <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_LEADER' or ${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link badge-info text-center"
-                           th:href="@{/leaderindex/financesuebersicht}">Finances</a>
-                    </li>
-                    <li th:if="${#request.userPrincipal.principal.role.toString()} == 'ROLE_ADMIN'" class="nav-item">
-                        <a class="nav-link badge-info text-center"
-                           th:href="@{/adminindex/userliste}">UserListe</a>
-                    </li>
-                </span>
-            </ul>
-            <form class="form-inline my-2 my-lg-0" disabled>
-                <!--todo search form implementieren-->
-                <input disabled name="searchInput" id="searchInput0" class="form-control mr-sm-2" type="search"
-                       placeholder="Search">
-                <button disabled class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-    </nav>
-    <script>
-        document.addEventListener('contextmenu', event => event.preventDefault());
-    </script>
-</header>
-
 
 <div th:fragment="productList(allproducts)" class="products-gooddeals">
     <div class="container" th:each="product : ${allproducts}">
@@ -259,25 +146,6 @@
         </a>
     </div>
 </div>
-
-<table th:fragment="tableBody(tableData)" class="table table-hover">
-    <thead class="thead-light">
-    <tr>
-        <th scope="col">Apport nutritif</th>
-        <th scope="col">Valeur</th>
-        <th scope="col"></th>
-        <th scope="col">Appreciation</th>
-    </tr>
-    </thead>
-    <tbody th:remove="all-but-first">
-    <tr th:each="row :${tableData}">
-        <td th:text="${row.getNom()}">Nom</td>
-        <td th:text="${#numbers.formatDecimal(row.getValeur(), 1, 3)}">Valeur</td>
-        <td th:text="${row.getUnite()}">Unité</td>
-        <td th:text="${row.getAppreciation()}">Appreciation</td>
-    </tr>
-    </tbody>
-</table>
 
 <div th:fragment="inputfield(field, name)" class="form-group row">
     <label class="col-sm-2 col-form-label" th:for="${field}" th:text="${name}">Decimal</label>
@@ -341,24 +209,5 @@
     </div>
 </div>
 
-<footer th:fragment="footer" class="container">
-    <div class="transbox">
-        <hr class="featurette-divider">
-        <p class="float-end link-info text-center"><a href="#">Début de page</a></p>
-        <p>&copy; 2022 Will-Agropastoral</p>
-    </div>
-</footer>
-<h3 th:fragment="avis" class="transbox">Un <a th:href="@{/avis}"> Avis</a> de votre part est bien entendu le Bienvenu</h3>
-
 </body>
-<script th:fragment="myFunction-js">
-    function myFunction() {
-        var x = document.getElementById("myTopnav");
-        if (x.className === "navbar-expand") {
-            x.className += "navbar-expand-md";
-        } else {
-            x.className = "navbar-expand";
-        }
-    }
-</script>
 </html>

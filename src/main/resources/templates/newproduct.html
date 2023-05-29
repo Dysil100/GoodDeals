@@ -9,10 +9,6 @@
 </head>
 <body>
 <header th:replace="fragments/general.html :: goodDealsHeader"></header>
-<br>
-<br>
-<br>
-<br>
 <h1>Créer un nouveau produit</h1>
 <div class="container">
   <form method="post" th:object="${productForm}" enctype="multipart/form-data" th:action="@{/newproduct}">

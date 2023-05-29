@@ -25,7 +25,7 @@ public class  ProductAdminController {
     private ProductService productService;
     private ServiceSupreme serviceSupreme;
 
-    @PostMapping(PRODUCTSERVICE)
+    @PostMapping(PRODUCT_DELETE_ID)
     public String delete(Model model, @PathVariable("id") Long id) {
         productService.deleteById(id);
         model.addAttribute("alle", productService.findAll());

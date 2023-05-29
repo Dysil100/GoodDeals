@@ -28,8 +28,16 @@ public class ProductController {
         return "Salut  " +userByEmail.getFirstName() + " trouvons ensemble le Produit dont tu as besoin.";
     }
 
+    @GetMapping("/goodeals/profil")
+    public String userprofil(Model model, @ModelAttribute("text") String text, @ModelAttribute("user") AppUser currentUser) {
+        model.addAttribute("text", text);
+        model.addAttribute("role", "user");
+        model.addAttribute("profile", currentUser);
+        return "gooddealsprofil";
+    }
+
     @GetMapping(PRODUCTLISTE)
-    public String alle(Model model, @ModelAttribute("searchform") InputSearchForm searchForm){
+    public String acceuil(Model model, @ModelAttribute("searchform") InputSearchForm searchForm){
         model.addAttribute("products", productService.findAll());
         model.addAttribute("searchform", searchForm);
         return "productliste";
@@ -80,6 +88,12 @@ public class ProductController {
     @ModelAttribute("InputSearchForm")
     InputSearchForm inputSearchForm() {
         return new InputSearchForm("");
+    }
+
+    @ModelAttribute("user")
+    AppUser profile(Principal user) {
+        String name = user.getName();
+        return serviceSupreme.getUserByEmail(name);
     }
 
 }

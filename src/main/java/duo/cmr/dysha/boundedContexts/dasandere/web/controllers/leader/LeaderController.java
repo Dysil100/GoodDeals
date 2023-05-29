@@ -36,7 +36,7 @@ public class LeaderController {
         return "home";
     }
 
-    @GetMapping("/goodeals/profil")
+    @GetMapping("/gooddeals/profil")
     public String userprofil(Model model, @ModelAttribute("text") String text, @ModelAttribute("profile") AppUser currentUser) {
         model.addAttribute("text", text);
         model.addAttribute("role", "user");

@@ -19,14 +19,7 @@ import static duo.cmr.dysha.boundedContexts.routen.Routen.USERINDEX;
 public class UserController {
     ServiceSupreme serviceSupreme;
 
-    @GetMapping(USERINDEX)
-    public String userindex(Model model, @ModelAttribute("text") String text) {
-        model.addAttribute("text", text);
-        model.addAttribute("role", "user");
-        return "index";
-    }
-
-    @GetMapping("/goodeals/profil")
+    @GetMapping("/gooddeals/profil")
     public String userprofil(Model model, @ModelAttribute("text") String text, @ModelAttribute("profile") AppUser currentUser) {
         model.addAttribute("text", text);
         model.addAttribute("role", "user");
