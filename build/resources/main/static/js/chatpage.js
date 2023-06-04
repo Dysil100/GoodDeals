@@ -1,20 +1,29 @@
-    document.addEventListener("DOMContentLoaded", function(event) {
-    // Définition de la fonction pour récupérer les messages
-    function updateMessages() {
-        // Récupération des valeurs des champs "sender" et "receiver"
-        const sender = document.getElementById("sender").value;
-        const receiver = document.getElementById("receiver").value;
+function updateMessages() {
+    const sender = document.getElementById('sender').value;
+    const receiver = document.getElementById('receiver').value;
+    const chatBody = document.querySelector('.chat-body');
 
-        // Appel de l'API RESTful avec fetch() pour récupérer les messages correspondants
+    setInterval(() => {
         fetch(`/messages/${sender}/${receiver}`)
-            .then(response => response.json()) // Transforme la réponse en objet JSON
-            .then(data => {
-                // Met à jour l'attribut "messages" du formulaire avec la réponse de l'API
-                document.getElementById("chat-body").setAttribute("th:object", JSON.stringify(data));
+            .then(response => response.json())
+            .then(messages => {
+                chatBody.innerHTML = '';
+                messages.forEach(message => {
+                    const chatMessage = document.createElement('div');
+                    chatMessage.className = message.sender === sender ? 'chat-message sent' : 'chat-message';
+                    chatMessage.innerHTML = `
+            <span>${message.sujet || ''}</span><br>
+            <p>${message.message}</p>
+            <span>${message.createdAt}</span>
+          `;
+                    chatBody.appendChild(chatMessage);
+                });
             })
-            .catch(error => console.error(error)); // Gestion des erreurs éventuelles
-    }
+            .catch(error => {
+                console.error('Error fetching messages:', error);
+            });
+    }, 2000);
+}
 
-    // Actualisation des messages toutes les deux secondes
-    setInterval(updateMessages, 2000);
-});
+// Appeler la fonction updateMessages lorsque la page est chargée
+window.addEventListener('load', updateMessages);

@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @AllArgsConstructor
 @Controller
@@ -20,15 +21,9 @@ public class ChatController {
     private ChatMessageService chatMessageService;
     private ServiceSupreme serviceSupreme;
 
-    @GetMapping("/contact/{receiver}")
-    public String chat(@PathVariable("receiver") String receiver, Model model, @ModelAttribute("sender") String sender,
-                       @ModelAttribute("receiverName") String receiverName) {
-        return "redirect:/discussions/" + serviceSupreme.getChatDiscussionHashFor(sender, receiver);
-    }
-
     @PostMapping("/chatpage/send")
-    public String send(Model model, @ModelAttribute("sender") String sender, @RequestParam String receiver, @RequestParam String message) {
-        ChatMessage msg = new ChatMessage(sender, receiver, message, serviceSupreme.getChatDiscussionHashFor(sender, receiver));
+    public String send(Model model, @ModelAttribute("sender") String sender, @RequestParam String receiver, @RequestParam String sujet, @RequestParam String message) {
+        ChatMessage msg = new ChatMessage(sender, receiver, sujet, message, serviceSupreme.getChatDiscussionHashFor(sender, receiver));
         chatMessageService.save(msg);
          return "redirect:/discussions/" + msg.getDiscussionHash();
     }
@@ -40,21 +35,13 @@ public class ChatController {
 
     @ModelAttribute("receiverName")
     String receiverName(@ModelAttribute("receiver") String receiver) {
-        AppUser appUser = appUserService.findByEmail(receiver);
-        return appUser.getFirstName() + " " + appUser.getLastName();
+        return appUserService.findByEmail(receiver).getFullName();
     }
 
-     /*@GetMapping("/messages/{sender}/{receiver}")
+    @GetMapping("/messages/{sender}/{receiver}")
     @ResponseBody
     public List<ChatMessage> messages(@PathVariable("receiver") String sender, @PathVariable("sender") String receiver) {
+        System.out.println("Sender = " + sender);
         return chatMessageService.findBySenderAndReceiver(sender, receiver);
-    }*/
-
-    /*@GetMapping("/chatpage")
-    public String chatPage(@ModelAttribute("receiver") String receiver, Model model, @ModelAttribute("sender") String sender) {
-        model.addAttribute("sender", sender);
-        model.addAttribute("receiver", receiver);
-        model.addAttribute("messages", chatMessageService.findBySenderAndReceiver(sender, receiver));
-        return "chatpage";
-    }*/
+    }
 }

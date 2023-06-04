@@ -1,7 +1,9 @@
 package duo.cmr.dysha.boundedContexts.GoodDeals.web.controllers.User;
 
 import duo.cmr.dysha.boundedContexts.GoodDeals.domain.models.discussion.Discussion;
+import duo.cmr.dysha.boundedContexts.GoodDeals.domain.models.product.Product;
 import duo.cmr.dysha.boundedContexts.GoodDeals.web.services.subservices.DiscussionService;
+import duo.cmr.dysha.boundedContexts.GoodDeals.web.services.subservices.ProductService;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.ServiceSupreme;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.AppUserService;
@@ -15,15 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 // TODO: 04.05.2023 remplacer l'utilisation des email par les id en implementation interne
 
 import java.security.Principal;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
 @Controller
 public class DiscussionController {
 
-    DiscussionService discussionService;
-    AppUserService appUserService;
-    ServiceSupreme serviceSupreme;
+    private DiscussionService discussionService;
+    private AppUserService appUserService;
+    private ServiceSupreme serviceSupreme;
+    private ProductService productService;
 
     @GetMapping("/discussions")
     public String disscussions(Model model, @ModelAttribute("sender") String sender) {
@@ -32,17 +35,28 @@ public class DiscussionController {
     }
 
     @GetMapping("/discussions/{id}")
-    public String productDetails(@PathVariable("id") String discussionhash, @ModelAttribute("sender") String sender, Model model) {
-        Discussion discussion = discussionService.finByDiscussionHash(discussionhash);
-        if (discussion.getUsers().isEmpty()){
-            List<AppUser> duoForHash = serviceSupreme.findDuoForHash(discussionhash);
-            discussion.setUsers(duoForHash);
-        }
+    public String productDetails(@PathVariable("id") String discussionHash, @ModelAttribute("sender") String sender, Model model) {
+        setUpMessage(model, sender, discussionHash);
+        return "chatpage";
+    }
+
+    @GetMapping("/contact/{productId}")
+    public String chat(@PathVariable("productId") Long productId, Model model, @ModelAttribute("sender") String sender,
+                       @ModelAttribute("receiverName") String receiverName) {
+        Product productById = productService.getProductById(productId);
+        String discussionHash = serviceSupreme.getChatDiscussionHashFor(sender, productById.getUserEmail());
+        setUpMessage(model, sender, discussionHash);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        model.addAttribute("sujet", "  A propos de: " + productById.getTitre() + "  à " + productById.getRegion() +  " publié le " + productById.getCreatedAt().format(dateFormat) );
+        return "chatpage";
+    }
+
+    private void setUpMessage(Model model, String sender, String discussionHash) {
+        Discussion discussion = serviceSupreme.getDiscussion(discussionHash);
         model.addAttribute("messages", discussion.getMessages());
         model.addAttribute("sender", sender);
         model.addAttribute("receiverName", receiverName(sender, discussion));
         model.addAttribute("receiver", discussion.getCurrentReceiver(sender));
-        return "chatpage";
     }
 
     @ModelAttribute("sender")

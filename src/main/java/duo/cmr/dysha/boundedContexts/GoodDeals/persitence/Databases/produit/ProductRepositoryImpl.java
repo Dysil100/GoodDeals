@@ -34,22 +34,32 @@ public class ProductRepositoryImpl implements ProductRepository {
         daoProductRepository.deleteById(id);
     }
 
-    private List<Product> toProductList(Iterable<ProductEntity> serviceEntities) {
+    @Override
+    public List<Product> findAllByUserId(Long userId) {
+        return toProductList(daoProductRepository.findAllByUserId(userId));
+    }
+
+    @Override
+    public List<Product> searchAllByQuery(String search) {
+        return toProductList(daoProductRepository.searchAllByQuery(search));
+    }
+
+    private List<Product> toProductList(Iterable<ProductEntity> entities) {
         ArrayList<Product> products = new ArrayList<>();
-        serviceEntities.forEach(e -> products.add(toProduct(e)));
+        entities.forEach(e -> products.add(toProduct(e)));
         return products;
     }
 
     private Product toProduct(ProductEntity e) {
-        return new Product(e.getId(), e.getUserEmail(), e.getTitle(), e.getDescription(), e.getPrice(), e.getActive(),
-                e.getVente(), e.getCity(), e.getQuartier(), e.getImage(), e.getCreatedAt(), e.getUpdatedAt());
+        return new Product(e.getId(), e.getUserId(), e.getUserEmail(), e.getTitle(), e.getDescription(), e.getPrice(), e.getActive(),
+                e.getVente(), e.getCathegorie(), e.getRegion(), e.getVille(), e.getQuartier(), e.getImages(), e.getCreatedAt(), e.getUpdatedAt());
     }
 
     private ProductEntity toEntity(Product p){
         p.setCreatedAt(p.getCreatedAt() == null ? LocalDateTime.now(): p.getCreatedAt());
         p.setUpdatedAt(p.getUpdatedAt() == null ? LocalDateTime.now(): p.getUpdatedAt());
-        return  new ProductEntity(p.getUserEmail(), p.getTitre(), p.getDescription(), p.getPrix(), p.getActive(),
-               p.getVente(), p.getCity(), p.getQuartier(), p.getImage(), p.getCreatedAt(), p.getUpdatedAt());
+        return  new ProductEntity(p.getUserId(), p.getUserEmail(), p.getTitre(), p.getDescription(), p.getPrix(), p.getActive(),
+               p.getVente(), p.getCathegorie(), p.getRegion(), p.getVille(), p.getQuartier(), p.getImages(), p.getCreatedAt(), p.getUpdatedAt());
     }
 
 }

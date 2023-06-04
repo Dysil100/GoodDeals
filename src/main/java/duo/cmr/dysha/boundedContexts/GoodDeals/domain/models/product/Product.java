@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -15,29 +16,35 @@ import java.util.Objects;
 public class Product {
 
     private Long id;
+    private Long userId;
     private String userEmail;
     private String titre;
     private String description;
     private double prix;
     private Boolean active;
     private Boolean vente;
-    private String city;
+    private String cathegorie;
+    private String region;
+    private String ville;
     private String quartier;
-    private String image;
+    private List<String> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Product(String userEmail, String titre, String description, double prix, boolean active, boolean vente, String city,
-                   String quartier, String image, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Product(Long userId, String userEmail, String titre, String description, double prix, boolean active, boolean vente, String cathegorie, String region, String ville,
+                   String quartier, List<String> images, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userEmail = userEmail;
+        this.userId = userId;
         this.titre = titre;
         this.description = description;
         this.prix = prix;
         this.active = active;
         this.vente = vente;
-        this.city = city;
+        this.cathegorie = cathegorie;
+        this.region = region;
+        this.ville = ville;
         this.quartier = quartier;
-        this.image = image;
+        this.images = images;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -49,7 +56,7 @@ public class Product {
         Product product = (Product) o;
         return Double.compare(product.getPrix(), getPrix()) == 0 && getId().equals(product.getId())
                 && Objects.equals(getUserEmail(), product.getUserEmail()) && Objects.equals(getTitre(), product.getTitre())
-                && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getCity(), product.getCity())
+                && Objects.equals(getDescription(), product.getDescription()) && Objects.equals(getRegion(), product.getRegion())
                 && Objects.equals(getQuartier(), product.getQuartier());
     }
 

@@ -1,17 +1,21 @@
 package duo.cmr.dysha.boundedContexts.GoodDeals.web.controllers.User;
 
 import duo.cmr.dysha.boundedContexts.GoodDeals.domain.models.product.Product;
+import duo.cmr.dysha.boundedContexts.GoodDeals.domain.oders.FilterForm;
 import duo.cmr.dysha.boundedContexts.GoodDeals.domain.oders.InputSearchForm;
 import duo.cmr.dysha.boundedContexts.GoodDeals.web.services.subservices.ProductService;
 import duo.cmr.dysha.boundedContexts.dasandere.domain.model.appsuer.AppUser;
 import duo.cmr.dysha.boundedContexts.dasandere.web.services.ServiceSupreme;
+import duo.cmr.dysha.boundedContexts.dyshafiles.web.services.DyshaFilesService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static duo.cmr.dysha.boundedContexts.routen.Routen.*;
 
@@ -19,6 +23,7 @@ import static duo.cmr.dysha.boundedContexts.routen.Routen.*;
 @Controller
 public class ProductController {
 
+    private DyshaFilesService filesService;
     private ProductService productService;
     private ServiceSupreme serviceSupreme;
 
@@ -30,39 +35,52 @@ public class ProductController {
 
     @GetMapping("/goodeals/profil")
     public String userprofil(Model model, @ModelAttribute("text") String text, @ModelAttribute("user") AppUser currentUser) {
-        model.addAttribute("text", text);
-        model.addAttribute("role", "user");
+        List<Product> allByUserId = productService.findAllByUserId(currentUser.getId());
+        System.out.println("Mes produits = " + allByUserId);
+        model.addAttribute("myProducts", allByUserId);
         model.addAttribute("profile", currentUser);
         return "gooddealsprofil";
     }
 
     @GetMapping(PRODUCTLISTE)
     public String acceuil(Model model, @ModelAttribute("searchform") InputSearchForm searchForm){
-        model.addAttribute("products", productService.findAll());
+       // searchSetUp(model, null);
         model.addAttribute("searchform", searchForm);
+        model.addAttribute("products", productService.findAll());
         return "productliste";
     }
 
     // TODO: 29.04.2023 repair this hier and in the frontend
     @GetMapping(PRODUCTSEARCH)
-    public String productSearch(Model model, @RequestParam("query") String query, @ModelAttribute("searchform") InputSearchForm searchForm){
-        searchForm.setQuery(query);
+    public String productSearch(Model model, @ModelAttribute("searchform") InputSearchForm searchForm,
+                                @ModelAttribute("filterForm") FilterForm filterForm){
+        //setup search:
+        model.addAttribute("filterForm", filterForm);
+        model.addAttribute("categories", productService.getCathegories());
+        model.addAttribute("regions", productService.getRegions());
         model.addAttribute("searchform", searchForm);
-        model.addAttribute("restproducts", productService.searchRestByExprr(searchForm.getQuery()));
-        model.addAttribute("seachliste", productService.seachByExpr(searchForm.getQuery()));
+        model.addAttribute("searchedResult", productService.seachByExpr(searchForm.getQuery(), filterForm));
+
         return "productsearchliste";
     }
 
     @GetMapping(NEWPRODUCT)
     public String product(Model model, @ModelAttribute("productForm") Product form) {
+        model.addAttribute("regions", productService.getRegionCitiesMap());
+        model.addAttribute("cathegories", productService.getCathegories());
         model.addAttribute("productForm", form);
+
         return "newproduct";
     }
 
     @PostMapping(NEWPRODUCT)
-    public String productPost(Model model, @ModelAttribute("productForm") Product form, @ModelAttribute("creator") String creator) {
+    public String productPost(Model model, @ModelAttribute("productForm") Product form, @ModelAttribute("user") AppUser creator,
+                              List<MultipartFile> productImages) {
         form.setCreatedAt(LocalDateTime.now());
-        form.setUserEmail(creator);
+        form.setUserId(creator.getId());
+        form.setUserEmail(creator.getEmail());
+        List<String> productImagesFileNames = filesService.saveAll(productImages);
+        form.setImages(productImagesFileNames);
         productService.save(form);
         model.addAttribute("products", productService.findAll());
         return "redirect:" + PRODUCTLISTE;
@@ -74,20 +92,22 @@ public class ProductController {
         return "productdetails";
     }
 
-    @ModelAttribute("creator")
-    String sender(Principal user) {
-        return user.getName();
+    // Méthode qui renvoie la liste des villes en fonction de la région
+    @GetMapping("/villes")
+    @ResponseBody
+    public List<String> getCities(@RequestParam("region") String region) {
+        return  productService.getCitiesOf(region);
     }
 
     @ModelAttribute("productForm")
     Product productForm() {
-        return new Product(null, null, null, 0.0, false, false
-                , null, null, null, null, null);
+        return new Product(null,null, null, null, 0.0, false, false
+                , null, null, null, null, null, null, null);
     }
 
     @ModelAttribute("InputSearchForm")
     InputSearchForm inputSearchForm() {
-        return new InputSearchForm("");
+        return new InputSearchForm(null);
     }
 
     @ModelAttribute("user")

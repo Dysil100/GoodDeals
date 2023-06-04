@@ -18,13 +18,15 @@ public class ChatMessageEntity {
     private Long id;
     private String sender;
     private String receiver;
+    private String sujet;
     private String message;
     private String discussionHash;
     private LocalDateTime createdAt;
 
-    public ChatMessageEntity(String sender, String receiver, String message, String discussionHash, LocalDateTime createdAt) {
+    public ChatMessageEntity(String sender, String receiver, String sujet, String message, String discussionHash, LocalDateTime createdAt) {
         this.sender = sender;
         this.receiver = receiver;
+        this.sujet = sujet;
         this.message = message;
         this.discussionHash = discussionHash;
         this.createdAt = createdAt;

@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
   <title>Recherche de produits</title>
-  <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="../static/css/productliste.css"/>
-  <link rel="stylesheet" th:href="@{/css/searchproducts.css}" type="text/css" href="../static/css/searchproducts.css"/>
+    <script src="/js/newproduct.js" th:src="@{/js/newproduct.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="../static/css/productliste.css"/>
+  <link rel="stylesheet" th:href="@{/css/searchproducts.css}" type="text/css" href="../static/css/searchproducts.css"/><script src="/js/newproduct.js" th:src="@{/js/newproduct.js}"></script>
 </head>
 <body>
 <header th:replace="fragments/general.html :: goodDealsHeader"></header>
-<!--div class="search">
-  <form th:action="@{/productliste/search}" method="get">
-    <label for="query"></label>
-    <input id="query" type="text" placeholder="Rechercher un produit ..." aria-label="Rechercher" name="query">
-    <button type="submit">Rechercher</button>
-  </form>
-</div-->
-<div th:replace="fragments/general.html :: productList(allproducts=${seachliste})"></div>
-<div th:replace="fragments/general.html :: productList(allproducts=${restproducts})"></div>
+<span th:if="${!searchform.getQuery().isBlank()}" th:text="'Nous avons trouvé ' + ${searchedResult.getProducts().size()} + ' Resultat(s) pour Votre Recherche'">Searhed List</span>
+<div th:replace="fragments/general.html :: productList(allproducts=${searchedResult.getProducts()})"></div>
+<span th:if="${!searchform.getQuery().isBlank()}" >Autre Produit</span>
+<div th:replace="fragments/general.html :: productList(allproducts=${searchedResult.getRestlProduct()})"></div>
 </body>
 </html>

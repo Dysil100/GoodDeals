@@ -49,6 +49,6 @@ public class Discussion {
     }
 
     public ChatMessage getLastMessage(){
-        return messages.isEmpty() ? new ChatMessage("", "" ,"", "") : messages.get(0);
+        return messages.isEmpty() ? new ChatMessage("", "" ,"", "", "") : messages.get(0);
     }
 }

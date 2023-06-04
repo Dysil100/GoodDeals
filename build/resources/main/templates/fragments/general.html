@@ -22,34 +22,57 @@
     <link rel="stylesheet" th:href="@{/css/newproduct.css}" type="text/css" href="../static/css/newproduct.css"/>
     <link rel="stylesheet" th:href="@{/css/addFiles.css}" type="text/css" href="../static/css/addFiles.css"/>
     <link rel="stylesheet" th:href="@{/css/productdetails.css}" type="text/css" href="../static/css/productdetails.css"/>
-
-
-
-
-
 </head>
 <body>
 
-<head th:fragment="head(title)">
-    <meta charset="UTF-8">
-    <title th:text="*{title}">Good Deals</title>
-    <link rel="stylesheet" th:href="@{/css/chatpage.css}" type="text/css" href="../static/css/chatpage.css"/>
+<form th:if="${filterForm}" th:fragment="filterform" th:object="${filterForm}" method="get">
+    <div>
+        <label for="fcategorie">Catégorie:</label>
+        <select onchange="submit(this)" th:value="${filterForm.fcategorie}" th:field="${filterForm.fcategorie}" id="fcategorie" name="fcategorie">
+            <option value="">Toutes les catégories</option>
+            <option th:each="categorie : ${categories}" th:value="${categorie}" th:text="${categorie}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="prixMin">Prix minimum:</label>
+        <input onchange="submit(this)" th:field="${filterForm.prixMin}" type="number" id="prixMin" name="prixMin" step="0.01">
+    </div>
+    <div>
+        <label for="prixMax">Prix maximum:</label>
+        <input onchange="submit(this)" th:field="${filterForm.prixMax}" th:value="${filterForm.prixMax}" type="number" id="prixMax" name="prixMax" step="0.01">
+    </div>
 
-    <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="/static/css/productliste.css"/>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" type="text/css" href="/static/css/styles.css" />
-</head>
+    <div>
+        <label for="fregion">Région:</label>
+        <select th:field="${filterForm.fregion}" th:value="${filterForm.fregion}" id="fregion" name="fregion" onchange="updateCities('fville', 'fregion')">
+            <option value="">Sélectionnez une région</option>
+            <option th:each="region : ${regions}" th:value="${region}" th:text="${region}"></option>
+        </select>
+    </div>
 
+    <div>
+        <label for="fville">Ville:</label>
+        <select th:field="${filterForm.fville}" th:value="${filterForm.fville}" type="text" id="fville" name="fville" >
+            <option th:selected="${filterForm.fville}" th:value="${filterForm.fville}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="fvente">Vente:</label>
+        <select onchange="submit(this)" th:field="${filterForm.fvente}"  th:value="${filterForm.fvente}" type="checkbox" id="fvente" name="fvente">
+            <option value="true">Offre</option>
+            <option value="false">Demande</option>
+        </select>
+    </div>
+</form>
 <!--good Deals header-->
 <header th:fragment="goodDealsHeader" id="gdTopnav" class="navbar-expand-md"><div class="index-header">
-        <form th:object="${searchform}" class="form-inline my-4" th:action="@{/productliste/search}" method="get">
+        <form th:if="${searchform}" th:object="${searchform}" class="form-inline my-4" th:action="@{/productliste/search}" method="get">
             <label for="query">
-                <input id="query" class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" name="query">
+                <form th:replace="fragments/general.html :: filterform"></form>
+                <input onchange="submit(this)" id="query" class="form-control mr-sm-2" type="search" placeholder="Rechercher un produit" aria-label="Rechercher" th:text="${searchform.query}" th:value="${searchform.query}" name="query">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Rechercher</button>
             </label>
         </form>
-
-        <!-- bouton pour créer un nouveau produit -->
-
         <div class="row mb-4">
             <div class="col">
                 <a th:href="@{/discussions}" class="btn btn-primary">Conversations</a>
@@ -135,9 +158,9 @@
 
         <a th:href="@{/product/details/{id}(id=${product.id})}">
             <div class="product">
-                <img src="https://via.placeholder.com/150">
+                <img th:src="@{/files/{fileName}(fileName=${product.images.get(0)})}" class="card-img-top" alt="Product Image" src="#">
                 <div class="details">
-                    <p th:text="${product.quartier}">Ville, Quartier</p>
+                    <p th:text="${product.Region} + ' - ' + ${product.ville} + ' à ' + ${product.quartier}">Region, Vile, Quartier</p>
                     <h3 th:text="${product.titre}">Titre du produit en gras</h3>
                     <p th:text="${product.description}">Description du produit</p>
                     <p class="price" th:text="${product.prix}">Prix en gras et vert</p>

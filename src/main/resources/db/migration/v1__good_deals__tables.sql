@@ -32,6 +32,7 @@ create table if not exists confirmation_token
 create table if not exists product
 (
                          id serial primary key,
+                         user_id integer,
                          user_email varchar(255),
                          title varchar(255),
                          description text,
@@ -39,9 +40,10 @@ create table if not exists product
                          vente boolean,
                          active boolean,
                          cathegorie varchar(255),
-                         city varchar(255) not null,
+                         region varchar(255) not null,
+                         ville varchar(255),
                          quartier varchar(255),
-                         image varchar(255),
+                         images text[],
                          created_at timestamp default current_timestamp,
                          updated_at timestamp default current_timestamp
 );

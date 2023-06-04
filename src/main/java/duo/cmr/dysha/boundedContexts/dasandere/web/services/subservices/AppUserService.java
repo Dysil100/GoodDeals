@@ -168,7 +168,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     public AppUser findByEmail(String email) {
-        return appUserRepository.findByEmail(email).orElseGet(() -> new AppUser(
+        return appUserRepository.findByEmail(email).orElseGet(() -> new AppUser(null,
                 "", "", email, "",
                 ROLE_USER));
     }

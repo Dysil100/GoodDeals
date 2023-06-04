@@ -51,7 +51,6 @@ public class AdminController {
     @ModelAttribute("user")
     AppUser profile(Principal user) {
         String name = user.getName();
-        System.out.println(name);
         return serviceSupreme.getUserByEmail(name);
     }
 

@@ -21,7 +21,7 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
     }
 
     private ChatMessageEntity toEntity(ChatMessage msg) {
-        return new ChatMessageEntity(msg.getSender(), msg.getReceiver(), msg.getMessage(), msg.getDiscussionHash(), msg.getCreatedAt());
+        return new ChatMessageEntity(msg.getSender(), msg.getReceiver(), msg.getSujet(), msg.getMessage(), msg.getDiscussionHash(), msg.getCreatedAt());
     }
 
     @Override
@@ -47,6 +47,6 @@ public class ChatMessageRepositoryImpl implements ChatMessageRepository {
     }
 
     private ChatMessage toChatMessage(ChatMessageEntity e) {
-        return new ChatMessage(e.getId(), e.getSender(), e.getReceiver(), e.getMessage(), null, e.getCreatedAt());
+        return new ChatMessage(e.getId(), e.getSender(), e.getReceiver(), e.getSujet(), e.getMessage(), null, e.getCreatedAt());
     }
 }

@@ -16,7 +16,6 @@ public class DyshaFilesRepositoryImpl implements DyshaFilesRepository {
 
     @Override
     public DyshaFiles findByName(String fileName) {
-        System.out.println(fileName);
         return toDyshaFiles(daoDyshaFilesRepository.findByName(fileName));
     }
 

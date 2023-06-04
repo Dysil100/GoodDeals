@@ -10,6 +10,7 @@ import duo.cmr.dysha.boundedContexts.dasandere.web.services.subservices.Confirma
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Service
@@ -50,10 +51,20 @@ public class ServiceSupreme {
         Long id2 = appUserService.findByEmail(userName2).getId();
         String chatDiscussionHash = ch.getChatDiscussionHashFor(id1, id2);
 
-        if (!discussionService.existByDiscussionHash(chatDiscussionHash.toString())){
-            discussionService.save(new Discussion(chatDiscussionHash.toString()));
+        if (!discussionService.existByDiscussionHash(chatDiscussionHash) && (id2 != null) && (id1 != null)){
+            discussionService.save(new Discussion(chatDiscussionHash));
         }
         return chatDiscussionHash;
+    }
+
+    @NotNull
+    public Discussion getDiscussion(String discussionHash) {
+        Discussion discussion = discussionService.finByDiscussionHash(discussionHash);
+        if (discussion.getUsers().isEmpty()){
+            List<AppUser> duoForHash = findDuoForHash(discussionHash);
+            discussion.setUsers(duoForHash);
+        }
+        return discussion;
     }
 
     public AppUser authenticateUser(String username, String password) {

@@ -16,13 +16,15 @@ public class ChatMessage {
     private Long id;
     private String sender;
     private String receiver;
+    private String sujet;
     private String message;
     private String discussionHash;
     private LocalDateTime createdAt;
 
-    public ChatMessage(String sender, String receiver, String message, String discussionHash) {
+    public ChatMessage(String sender, String receiver, String sujet, String message, String discussionHash) {
         this.sender = sender;
         this.receiver = receiver;
+        this.sujet = sujet;
         this.message = message;
         this.discussionHash = discussionHash;
         this.createdAt = LocalDateTime.now();

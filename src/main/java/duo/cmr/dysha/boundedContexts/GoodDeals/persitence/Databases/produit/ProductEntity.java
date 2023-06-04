@@ -1,13 +1,11 @@
 package duo.cmr.dysha.boundedContexts.GoodDeals.persitence.Databases.produit;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -21,29 +19,35 @@ public class ProductEntity {
     @Id
     private Long id;
 
+    private Long userId;
     private String userEmail;
     private String title;
     private String description;
     private Double price;
     private Boolean active;
     private Boolean vente;
-    private String city;
+    private String cathegorie;
+    private String region;
+    private String ville;
     private String quartier;
-    private String image;
+    private List<String> images;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ProductEntity(String userEmail, String title, String description, Double price, Boolean active, boolean vente, String city,
-                         String quartier, String image, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public ProductEntity(Long userId, String userEmail, String title, String description, Double price, Boolean active, boolean vente, String cathegorie, String region,
+                         String ville, String quartier, List<String> images, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.userEmail = userEmail;
+        this.userId = userId;
         this.title = title;
         this.description = description;
         this.price = price;
         this.active = active;
         this.vente = vente;
-        this.city = city;
+        this.cathegorie = cathegorie;
+        this.region = region;
+        this.ville = ville;
         this.quartier = quartier;
-        this.image = image;
+        this.images = images;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }

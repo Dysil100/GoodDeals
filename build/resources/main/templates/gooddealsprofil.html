@@ -5,6 +5,7 @@
   <title>Profile</title>
   <link rel="stylesheet" th:href="@{/css/productliste.css}" type="text/css" href="../static/css/productliste.css"/>
   <link rel="stylesheet" th:href="@{/css/gooddealsprofil.css}" type="text/css" href="../static/css/gooddealsprofil.css"/>
+  <link rel="stylesheet" th:href="@{/css/searchproducts.css}" type="text/css" href="../static/css/searchproducts.css"/><script src="/js/newproduct.js" th:src="@{/js/newproduct.js}"></script>
 
 </head>
 <body>
@@ -38,5 +39,7 @@
     </div>
   </div>
 </div>
+<div th:replace="fragments/general.html :: productList(allproducts=${myProducts})"></div>
+<span>Mes Produits</span>
 </body>
 </html>
